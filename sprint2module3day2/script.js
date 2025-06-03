@@ -53,6 +53,8 @@ const originalArray = [1, 2, 3, 4];
     const middleTwo = originalArray.slice(1,3);
     console.log("Middle Two", middleTwo)
 
+    
+
     /*
     PROBLEM 4:
     Using slice, log to the console an array that only includes the last element in the above array named originalArray so the output should be [4]
@@ -69,3 +71,11 @@ const originalArray = [1, 2, 3, 4];
     */
     let numbers = "1234567";
     console.log(numbers.slice(0,5));
+
+    const arrayTest = ["test1", "test2", "test3", "test4", "test5", "test6", "test7"];
+
+    const test = arrayTest.slice(0,4)
+    console.log(test)
+
+    // Index:   0      1      2      3      4       5    6
+    // Array: test1, test2, test3, test4, test5, test6, test7
