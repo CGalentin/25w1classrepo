@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HelpDesk Tickets</title>
+  <link rel="stylesheet" href="/sprint2module4day1/styles.css" />
+</head>
+<body>
+  <!-- HEADER SECTION -->
+  <header>
+    <h1>📬 HelpDesk Ticket System</h1>
+    <p>Support dashboard: track and manage incoming tickets</p>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main>
+    <!-- TICKET SUBMISSION FORM -->
+    <section class="form-section">
+      <h2>Submit a New Ticket</h2>
+      <form>
+        <label for="user-issue">Describe your issue:</label>
+        <textarea id="user-issue" name="user-issue" rows="4" placeholder="e.g., My monitor won't turn on..."></textarea>
+        <button type="submit">Submit Ticket</button>
+      </form>
+    </section>
+
+    <!-- EXISTING TICKETS -->
+    <section class="ticket">
+      <div class="ticket-header">
+        <span class="ticket-id">#1245</span>
+        <span class="priority high">High Priority</span>
+      </div>
+      <h2 class="ticket-title">User can't access VPN</h2>
+      <p class="ticket-desc">Reported by Sarah J. Unable to access internal VPN from home network. Issue persists after restart.</p>
+    </section>
+
+    <section class="ticket">
+      <div class="ticket-header">
+        <span class="ticket-id">#1246</span>
+        <span class="priority low">Low Priority</span>
+      </div>
+      <h2 class="ticket-title">Update signature on email</h2>
+      <p class="ticket-desc">Requested update to department name in email signature for several users.</p>
+    </section>
+
+    <section class="ticket">
+      <div class="ticket-header">
+        <span class="ticket-id">#1247</span>
+        <span class="priority medium">Medium Priority</span>
+      </div>
+      <h2 class="ticket-title">Printer offline in Finance</h2>
+      <p class="ticket-desc">The large printer in Finance has been unresponsive since this morning. No errors on the screen.</p>
+    </section>
+  </main>
+
+  <!-- FOOTER SECTION -->
+  <footer>
+    <p>HelpDesk System v1.0 – Built with HTML and CSS 🚀</p>
+  </footer>
+</body>
+</html>
