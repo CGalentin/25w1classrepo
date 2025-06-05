@@ -1,4 +1,27 @@
 /* Global Styling */
+/* CSS Reset - Meyerweb Reset or any preferred reset */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+/* Continue with reset styles... */
+
 body {
     font-family: Helvetica, sans-serif;
     background-color: #a1e7e7;
@@ -85,6 +108,77 @@ button:hover {
     background-color: green;
 }
 
-footer {
-    
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem
+}
+
+#page-header {
+    background-color: #1e2a38;
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+#submit-ticket {
+    background-color: #FFFFFF;
+    padding: 1rem;
+    border-left: 6px solid navy;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+    border-radius: 8px;
+}
+
+#submit-ticket h2 {
+    margin-top: 0;
+    color: black;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+select {
+    font-size: 1rem;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.ticket {
+    background-color: aliceblue;
+    border-left: 6px solid navy;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+}
+
+.ticket-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: .5rem;
+}
+
+.ticket-title {
+    margin: .25rem 0 .5rem;
+    color: navy;
+}
+
+#announcement {
+    background-color: rgb(127, 15, 15);
+    color: #FFFFFF;
+    padding: 1rem;
+    font-size: 12px;
+    border-left:6px solid rgb(63, 58, 58);
+    border-radius: 8px;
+}
+
+#footer {
+    text-align: center;
+    padding: 1rem;
+    font-size: small;
+    background-color: white;
+    border-top: 1px solid navy;
 }

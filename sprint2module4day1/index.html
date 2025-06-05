@@ -7,25 +7,33 @@
   <link rel="stylesheet" href="/sprint2module4day1/styles.css" />
 </head>
 <body>
-  <!-- HEADER SECTION -->
-  <header>
+
+  <!-- 🧭 HEADER -->
+  <header id="page-header">
     <h1>📬 HelpDesk Ticket System</h1>
     <p>Support dashboard: track and manage incoming tickets</p>
   </header>
 
-  <!-- MAIN CONTENT -->
   <main>
-    <!-- TICKET SUBMISSION FORM -->
-    <section class="form-section">
+    <!-- 📝 TICKET SUBMISSION FORM -->
+    <section id="submit-ticket">
       <h2>Submit a New Ticket</h2>
       <form>
         <label for="user-issue">Describe your issue:</label>
         <textarea id="user-issue" name="user-issue" rows="4" placeholder="e.g., My monitor won't turn on..."></textarea>
+
+        <label for="priority">Select priority:</label>
+        <select id="priority" name="priority">
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+
         <button type="submit">Submit Ticket</button>
       </form>
     </section>
 
-    <!-- EXISTING TICKETS -->
+    <!-- 🎫 SAMPLE TICKETS -->
     <section class="ticket">
       <div class="ticket-header">
         <span class="ticket-id">#1245</span>
@@ -52,11 +60,18 @@
       <h2 class="ticket-title">Printer offline in Finance</h2>
       <p class="ticket-desc">The large printer in Finance has been unresponsive since this morning. No errors on the screen.</p>
     </section>
+
+    <!-- 📢 ANNOUNCEMENT -->
+    <section id="announcement">
+      <h2>🚧 System Maintenance Notice</h2>
+      <p>Our HelpDesk system will undergo scheduled maintenance on Friday at 9 PM EST. Expect brief downtime.</p>
+    </section>
   </main>
 
-  <!-- FOOTER SECTION -->
-  <footer>
+  <!-- 🔚 FOOTER -->
+  <footer id="footer">
     <p>HelpDesk System v1.0 – Built with HTML and CSS 🚀</p>
   </footer>
+
 </body>
 </html>
