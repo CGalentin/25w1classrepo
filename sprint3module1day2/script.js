@@ -39,7 +39,7 @@ class Customer {
 
 //Create a new customer
 try {
-    const customer1 = new Customer("Sarah", 'sarah', 'dpeters');
+    const customer1 = new Customer("Sarah", 'sarah@mail.com', 'dpeters');
     customer1.onboardCustomer();
 } catch (err) {
     console.log("Could not create new customer")
