@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>CSS Cascade, Specificity & Box Model</title>
+		<link rel="stylesheet" href="/sprint3module4day1/styles.css" />
+	</head>
+	<body>
+
+        <section class="section">
+            <h2>5. Pseudo-classes</h2>
+            <ul class="list">
+                <li>Hover over me</li>
+                <li>Hover over me too</li>
+            </ul>
+        </section>
+        
+		<section class="container">
+			<h1 class="main-title">CSS in Action</h1>
+
+			<!-- Cascade and Specificity -->
+			<section class="section">
+				<h2>1. Cascade and Specificity</h2>
+				<p class="note">These paragraphs show how conflicts are resolved.</p>
+
+				<p class="text important" id="para1">#para1 (ID + class)</p>
+				<p class="text">.text (Class only)</p>
+				<p class="important">.important (Different class)</p>
+				<p class="text important" id="para2" style="color: orange">
+					Inline Style Wins!
+				</p>
+				<p class="important override">.override has !important</p>
+			</section>
+
+			<!-- Selector Practice -->
+			<section class="section">
+				<h2>2. Selector Practice</h2>
+				<div class="profile">
+					<h3 data-role="admin">Admin Profile</h3>
+					<h3 class="user">User Profile</h3>
+					<p class="description">
+						This is a <strong>user</strong> description.
+					</p>
+					<p class="description">
+						This is an <strong>admin</strong> description.
+					</p>
+				</div>
+			</section>
+
+			<!-- Box Model -->
+			<section class="section">
+				<h2>3. Box Model Demo</h2>
+				<div class="box-row">
+					<div class="box content-box">
+						<p>Content-Box</p>
+					</div>
+					<div class="box border-box">
+						<p>Border-Box</p>
+					</div>
+				</div>
+			</section>
+
+			<!-- Flow & Nesting -->
+			<section class="section flow-demo">
+				<h2>4. Flow of Elements</h2>
+				<div class="parent">
+					<p>Parent</p>
+					<div class="child">Child 1</div>
+					<div class="child">Child 2</div>
+				</div>
+			</section>
+
+			<!-- Pseudo-class selector -->
+			
+		</section>
+	</body>
+</html>

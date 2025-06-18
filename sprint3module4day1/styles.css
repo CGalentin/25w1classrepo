@@ -1,0 +1,124 @@
+body {
+	font-family: "Segoe UI", sans-serif;
+	background: #f4f4f4;
+	margin: 0;
+	padding: 2rem;
+	color: #333;
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+}
+
+h1, h2, h3 {
+    color:red;
+}
+
+.section {
+    background: #fff;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.note {
+    font-style: italic;
+    text-decoration: underline;
+    color: #777
+}
+
+.text {
+    color: blue;
+}
+
+.important {
+    color: red;
+}
+
+h1, h2, h3 {
+    color:#333
+}
+
+#para1 {
+    color: purple;
+}
+
+#para2 {
+    color: green;
+}
+
+.override {
+    color: black !important;
+}
+
+.profile h3[data-role="admin"] {
+    color: darkred;
+    font-weight: bold;
+}
+
+.profile h3.user {
+    color: steelblue;
+}
+
+.profile p.description strong {
+    color: darkorange;
+    text-decoration: underline;
+}
+
+.box-row {
+    display: flex;
+    gap: 2rem;
+    justify-content: space-around;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.box {
+    width: 200px;
+    height: 100px;
+    padding: 20px;
+    border: 5px solid #000;
+    background-color: rgb(170, 238, 201);
+    text-align: center;
+    line-height: 60px;
+    font-weight: bold;
+}
+
+.content-box {
+    box-sizing: content-box;
+    background-color: rgb(234, 213, 185);
+}
+
+.border-box {
+    box-sizing: border-box;
+    background-color: rgb(174, 163, 236);
+}
+
+.flow-demo .parent {
+    background-color: #e1bee7;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.flow-demo .child {
+    background: lightsalmon;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 8px;
+}
+
+.list li {
+    padding: 10px;
+    background-color: rgb(153, 241, 241);
+    border: 2px solid orange;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    transition: background 3s;
+}
+
+.list li:hover {
+    background-color: chartreuse;
+    cursor: pointer;
+}
