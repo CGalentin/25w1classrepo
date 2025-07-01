@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Manipulation Lesson</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .lesson-header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .lesson-header h1 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 2.5em;
+        }
+
+        .lesson-header p {
+            color: #7f8c8d;
+            font-size: 1.2em;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            margin-bottom: 25px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-2px);
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-header h2 {
+            font-size: 1.4em;
+        }
+
+        .toggle-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .section.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .section-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .section.active .section-content {
+            max-height: 2000px;
+            padding: 25px;
+        }
+
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block::before {
+            content: 'JavaScript';
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 0.8em;
+            color: #95a5a6;
+        }
+
+        .demo-area {
+            border: 2px dashed #3498db;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            background: #f8f9fa;
+            min-height: 100px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+        }
+
+        .highlight {
+            background: #f39c12;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .note {
+            background: #e8f5e8;
+            border-left: 4px solid #27ae60;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .warning {
+            background: #fdf2e9;
+            border-left: 4px solid #e67e22;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .exercise {
+            background: #f4f1ff;
+            border: 2px solid #9b59b6;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        .exercise h3 {
+            color: #8e44ad;
+            margin-bottom: 10px;
+        }
+
+        .dom-tree {
+            font-family: monospace;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #3498db;
+        }
+
+        .created-element {
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .progress-bar {
+            background: #ecf0f1;
+            height: 6px;
+            border-radius: 3px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #27ae60, #2ecc71);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="lesson-header">
+            <h1>🎨 DOM Manipulation Mastery</h1>
+            <p>Transform static HTML into dynamic, interactive experiences using JavaScript's powerful DOM manipulation techniques. Like a painter with a brush, you'll learn to craft beautiful user interfaces programmatically!</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <!-- Section 1: Text Content -->
+        <div class="section" data-section="1">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2>1. Setting Text with .textContent</h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <p>The <span class="highlight">.textContent</span> property allows you to get or set the text content of an element, stripping away any HTML tags.</p>
+                
+                <div class="code-block">
+// Getting text content
+const element = document.getElementById('myElement');
+console.log(element.textContent); // Returns the text
+
+// Setting text content
+element.textContent = 'Hello, World!';
+                </div>
+
+                <div class="note">
+                    <strong>Note:</strong> .textContent is safer than .innerHTML when dealing with user input as it prevents XSS attacks by treating content as plain text.
+                </div>
+
+                <div class="demo-area" id="textDemo">
+                    <p id="textTarget">Click the button to change this text!</p>
+                </div>
+                
+                <button class="btn" onclick="changeText()">Change Text</button>
+                <button class="btn" onclick="getTextContent()">Get Text Content</button>
+
+                <div class="exercise">
+                    <h3>💪 Exercise 1</h3>
+                    <p>Create a paragraph element and use .textContent to display the current date and time.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Attributes -->
+        <div class="section" data-section="2">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2>2. Setting Attributes with .setAttribute</h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <p>The <span class="highlight">.setAttribute()</span> method adds or modifies attributes on HTML elements.</p>
+                
+                <div class="code-block">
+// Setting attributes
+element.setAttribute('class', 'highlight');
+element.setAttribute('data-info', 'important');
+element.setAttribute('title', 'Hover for tooltip');
+
+// Getting attributes
+const className = element.getAttribute('class');
+
+// Removing attributes
+element.removeAttribute('data-info');
+                </div>
+
+                <div class="demo-area" id="attrDemo">
+                    <img id="attrTarget" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect width='100' height='100' fill='%23e74c3c'/%3E%3Ctext x='50' y='55' text-anchor='middle' fill='white' font-size='12'%3EImage%3C/text%3E%3C/svg%3E" alt="Demo Image" style="border-radius: 8px;">
+                    <p id="attrInfo">Image attributes will be displayed here</p>
+                </div>
+                
+                <button class="btn" onclick="changeAttributes()">Change Image Attributes</button>
+                <button class="btn" onclick="showAttributes()">Show Current Attributes</button>
+            </div>
+        </div>
+
+        <!-- Section 3: Inline Styles -->
+        <div class="section" data-section="3">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2>3. Setting Inline Styles with .style</h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <p>The <span class="highlight">.style</span> property allows you to set inline CSS styles directly on elements.</p>
+                
+                <div class="code-block">
+// Setting individual styles
+element.style.color = 'red';
+element.style.backgroundColor = 'yellow';
+element.style.fontSize = '20px';
+
+// Setting multiple styles with cssText
+element.style.cssText = 'color: blue; background: yellow; font-size: 18px;';
+
+// Getting computed styles
+const computedStyle = getComputedStyle(element);
+console.log(computedStyle.color);
+                </div>
+
+                <div class="warning">
+                    <strong>Warning:</strong> CSS property names in JavaScript use camelCase (backgroundColor) instead of kebab-case (background-color).
+                </div>
+
+                <div class="demo-area" id="styleDemo">
+                    <div id="styleTarget" style="width: 200px; height: 100px; background: #3498db; color: white; display: flex; align-items: center; justify-content: center; border-radius: 8px; transition: all 0.3s ease;">
+                        Style me!
+                    </div>
+                </div>
+                
+                <button class="btn" onclick="randomStyle()">Random Style</button>
+                <button class="btn" onclick="resetStyle()">Reset Style</button>
+            </div>
+        </div>
+
+        <!-- Section 4: Classes and IDs -->
+        <div class="section" data-section="4">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2>4. Manipulating Classes and IDs</h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <p>Control element classes and IDs using <span class="highlight">.className</span>, <span class="highlight">.classList</span>, and <span class="highlight">.id</span>.</p>
+                
+                <div class="code-block">
+// Using className (replaces all classes)
+element.className = 'new-class another-class';
+
+// Using classList (more flexible)
+element.classList.add('highlight');
+element.classList.remove('old-class');
+element.classList.toggle('active');
+element.classList.contains('highlight'); // returns boolean
+
+// Setting ID
+element.id = 'uniqueIdentifier';
+                </div>
+
+                <div class="demo-area" id="classDemo">
+                    <div id="classTarget" class="demo-box">
+                        I can change classes!
+                    </div>
+                    <p id="classInfo">Current classes: demo-box</p>
+                </div>
+                
+                <button class="btn" onclick="addClass()">Add Class</button>
+                <button class="btn" onclick="removeClass()">Remove Class</button>
+                <button class="btn" onclick="toggleClass()">Toggle Class</button>
+                <button class="btn" onclick="changeId()">Change ID</button>
+
+                <style>
+                    .demo-box {
+                        width: 150px;
+                        height: 100px;
+                        background: #95a5a6;
+                        color: white;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        border-radius: 8px;
+                        transition: all 0.3s ease;
+                        margin-bottom: 10px;
+                    }
+                    .highlight-class {
+                        background: #e74c3c !important;
+                        transform: scale(1.1);
+                    }
+                    .border-class {
+                        border: 4px solid #f39c12;
+                    }
+                    .rotate-class {
+                        transform: rotate(10deg);
+                    }
+                </style>
+            </div>
+        </div>
+
+        <!-- Section 5: Parent and Children -->
+        <div class="section" data-section="5">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2>5. Accessing Parent and Children Nodes</h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <p>Navigate the DOM tree using <span class="highlight">.parentNode</span> and <span class="highlight">.children</span> properties.</p>
+                
+                <div class="code-block">
+// Accessing parent
+const parent = element.parentNode;
+const parentElement = element.parentElement; // same as parentNode for elements
+
+// Accessing children
+const children = element.children; // HTMLCollection of child elements
+const firstChild = element.firstElementChild;
+const lastChild = element.lastElementChild;
+
+// Sibling navigation
+const nextSibling = element.nextElementSibling;
+const prevSibling = element.previousElementSibling;
+                </div>
+
+                <div class="demo-area" id="navDemo">
+                    <div id="parentDiv" style="border: 2px solid #3498db; padding: 15px; border-radius: 8px;">
+                        <h4>Parent Container</h4>
+                        <p id="child1">Child 1</p>
+                        <p id="child2">Child 2</p>
+                        <p id="child3">Child 3</p>
+                    </div>
+                    <div id="navInfo" style="margin-top: 10px; font-family: monospace; background: #f8f9fa; padding: 10px; border-radius: 4px;">
+                        Click a navigation button to see relationships
+                    </div>
+                </div>
+                
+                <button class="btn" onclick="showParent()">Show Parent</button>
+                <button class="btn" onclick="showChildren()">Show Children</button>
+                <button class="btn" onclick="showSiblings()">Show Siblings</button>
+
+                <div class="dom-tree">
+                    <strong>DOM Tree Structure:</strong><br>
+                    parentDiv<br>
+                    ├── h4 (Parent Container)<br>
+                    ├── p#child1 (Child 1)<br>
+                    ├── p#child2 (Child 2)<br>
+                    └── p#child3 (Child 3)
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 6: Creating Elements -->
+        <div class="section" data-section="6">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2>6. Creating DOM Elements with .createElement()</h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <p>Create new HTML elements dynamically using <span class="highlight">document.createElement()</span>.</p>
+                
+                <div class="code-block">
+// Creating elements
+const newDiv = document.createElement('div');
+const newP = document.createElement('p');
+const newImg = document.createElement('img');
+
+// Setting properties immediately
+const button = document.createElement('button');
+button.textContent = 'Click me!';
+button.className = 'btn';
+button.onclick = function() { alert('Hello!'); };
+                </div>
+
+                <div class="demo-area" id="createDemo">
+                    <div id="createdElements" style="border: 1px dashed #95a5a6; padding: 15px; border-radius: 8px; min-height: 80px;">
+                        <p style="color: #7f8c8d; text-align: center;">Created elements will appear here</p>
+                    </div>
+                </div>
+                
+                <button class="btn" onclick="createElement('div')">Create Div</button>
+                <button class="btn" onclick="createElement('p')">Create Paragraph</button>
+                <button class="btn" onclick="createElement('button')">Create Button</button>
+                <button class="btn" onclick="clearCreated()">Clear All</button>
+            </div>
+        </div>
+
+        <!-- Section 7: Building Elements -->
+        <div class="section" data-section="7">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2>7. Building Out New Elements</h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <p>Learn to fully construct elements with content, attributes, and styles before adding them to the DOM.</p>
+                
+                <div class="code-block">
+// Building a complete element
+function createCard(title, content, imageUrl) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.style.cssText = `
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 15px;
+        margin: 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    `;
+    
+    const cardTitle = document.createElement('h3');
+    cardTitle.textContent = title;
+    
+    const cardContent = document.createElement('p');
+    cardContent.textContent = content;
+    
+    const cardImage = document.createElement('img');
+    cardImage.src = imageUrl;
+    cardImage.style.width = '100%';
+    
+    card.appendChild(cardTitle);
+    card.appendChild(cardImage);
+    card.appendChild(cardContent);
+    
+    return card;
+}
+                </div>
+
+                <div class="demo-area" id="buildDemo">
+                    <div id="cardContainer" style="display: flex; flex-wrap: wrap; justify-content: center;">
+                        <!-- Built cards will appear here -->
+                    </div>
+                </div>
+                
+                <button class="btn" onclick="buildCard()">Build Card</button>
+                <button class="btn" onclick="buildList()">Build List</button>
+                <button class="btn" onclick="buildForm()">Build Form</button>
+
+                <div class="exercise">
+                    <h3>💪 Exercise 2</h3>
+                    <p>Create a function that builds a complete user profile card with name, email, avatar, and a "Contact" button.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 8: Adding Children -->
+        <div class="section" data-section="8">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2>8. Adding Children with .appendChild() and .prepend()</h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <p>Learn different methods to add elements to the DOM tree using <span class="highlight">.appendChild()</span> and <span class="highlight">.prepend()</span>.</p>
+                
+                <div class="code-block">
+// appendChild - adds to end
+parent.appendChild(newElement);
+
+// prepend - adds to beginning  
+parent.prepend(newElement);
+
+// insertBefore - adds before a reference element
+parent.insertBefore(newElement, referenceElement);
+
+// append - can add multiple elements/text
+parent.append(element1, element2, 'text content');
+                </div>
+
+                <div class="demo-area" id="appendDemo">
+                    <div id="appendContainer" style="border: 2px dashed #27ae60; padding: 20px; border-radius: 8px; min-height: 120px;">
+                        <div style="background: #ecf0f1; padding: 10px; margin: 5px; border-radius: 4px; text-align: center;">
+                            Original Element
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn" onclick="appendElement()">Append Element</button>
+                <button class="btn" onclick="prependElement()">Prepend Element</button>
+                <button class="btn" onclick="insertBeforeElement()">Insert Before</button>
+                <button class="btn" onclick="clearAppendDemo()">Clear</button>
+
+                <div class="note">
+                    <strong>Tip:</strong> .appendChild() returns the appended element, so you can chain operations!
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 9: Insert Adjacent Element -->
+        <div class="section" data-section="9">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2>9. Adding Elements with .insertAdjacentElement()</h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <p>The <span class="highlight">.insertAdjacentElement()</span> method provides precise control over element placement.</p>
+                
+                <div class="code-block">
+// Position options:
+// 'beforebegin' - before the element
+// 'afterbegin' - inside the element, before first child
+// 'beforeend' - inside the element, after last child  
+// 'afterend' - after the element
+
+element.insertAdjacentElement('beforebegin', newElement);
+element.insertAdjacentElement('afterbegin', newElement);
+element.insertAdjacentElement('beforeend', newElement);
+element.insertAdjacentElement('afterend', newElement);
+
+// Also available:
+element.insertAdjacentHTML('beforeend', '<p>HTML string</p>');
+element.insertAdjacentText('afterbegin', 'Text content');
+                </div>
+
+                <div class="demo-area" id="insertDemo">
+                    <div style="text-align: center; padding: 20px;">
+                        <div id="targetElement" style="background: #3498db; color: white; padding: 15px; border-radius: 8px; display: inline-block; position: relative;">
+                            Target Element
+                        </div>
+                    </div>
+                    <div id="insertInfo" style="margin-top: 15px; font-family: monospace; background: #f8f9fa; padding: 10px; border-radius: 4px; text-align: center;">
+                        Use buttons to insert elements at different positions
+                    </div>
+                </div>
+                
+                <button class="btn" onclick="insertAdjacent('beforebegin')">Before Begin</button>
+                <button class="btn" onclick="insertAdjacent('afterbegin')">After Begin</button>
+                <button class="btn" onclick="insertAdjacent('beforeend')">Before End</button>
+                <button class="btn" onclick="insertAdjacent('afterend')">After End</button>
+                <button class="btn" onclick="clearInsertDemo()">Clear All</button>
+
+                <div class="dom-tree">
+                    <strong>Position Reference:</strong><br>
+                    &lt;!-- beforebegin --&gt;<br>
+                    &lt;div&gt;<br>
+                    &nbsp;&nbsp;&lt;!-- afterbegin --&gt;<br>
+                    &nbsp;&nbsp;existing content<br>
+                    &nbsp;&nbsp;&lt;!-- beforeend --&gt;<br>
+                    &lt;/div&gt;<br>
+                    &lt;!-- afterend --&gt;
+                </div>
+            </div>
+        </div>
+
+        <!-- Final Exercise -->
+        <div class="section" data-section="10">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2>🎯 Final Challenge: Build a Dynamic To-Do List</h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content">
+                <p>Put all your skills together to build a fully functional to-do list application!</p>
+                
+                <div class="exercise">
+                    <h3>🚀 Challenge Requirements</h3>
+                    <p><strong>Build a to-do list that can:</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Add new tasks</li>
+                        <li>Mark tasks as complete</li>
+                        <li>Delete tasks</li>
+                        <li>Show task count</li>
+                        <li>Style completed tasks differently</li>
+                    </ul>
+                </div>
+
+                <div class="demo-area" id="todoDemo">
+                    <div id="todoApp" style="max-width: 500px; margin: 0 auto;">
+                        <div style="display: flex; margin-bottom: 20px; gap: 10px;">
+                            <input type="text" id="todoInput" placeholder="Enter a new task..." style="flex: 1; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px;">
+                            <button class="btn" onclick="addTodo()" style="margin: 0;">Add Task</button>
+                        </div>
+                        <div id="todoStats" style="text-align: center; margin-bottom: 15px; color: #7f8c8d;">
+                            Total: 0 tasks | Completed: 0 | Remaining: 0
+                        </div>
+                        <div id="todoList" style="border: 1px solid #ddd; border-radius: 8px; min-height: 200px; padding: 15px;">
+                            <p style="text-align: center; color: #95a5a6; font-style: italic;">No tasks yet. Add one above!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="code-block">
+// Sample solution structure:
+function addTodo() {
+    const input = document.getElementById('todoInput');
+    const todoText = input.value.trim();
+    
+    if (todoText) {
+        const todoItem = document.createElement('div');
+        todoItem.className = 'todo-item';
+        
+        // Build the todo item structure
+        // Add event listeners
+        // Append to list
+        // Update statistics
+        
+        input.value = '';
+    }
+}
+                </div>
+
+                <style>
+                    .todo-item {
+                        display: flex;
+                        align-items: center;
+                        padding: 12px;
+                        margin: 8px 0;
+                        background: #f8f9fa;
+                        border-radius: 6px;
+                        border-left: 4px solid #3498db;
+                        transition: all 0.3s ease;
+                    }
+                    .todo-item:hover {
+                        background: #e9ecef;
+                        transform: translateX(5px);
+                    }
+                    .todo-item.completed {
+                        opacity: 0.6;
+                        border-left-color: #27ae60;
+                        text-decoration: line-through;
+                    }
+                    .todo-text {
+                        flex: 1;
+                        margin: 0 10px;
+                        font-size: 16px;
+                    }
+                    .todo-checkbox {
+                        margin-right: 10px;
+                        transform: scale(1.2);
+                    }
+                    .todo-delete {
+                        background: #e74c3c;
+                        color: white;
+                        border: none;
+                        padding: 6px 12px;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        font-size: 14px;
+                    }
+                    .todo-delete:hover {
+                        background: #c0392b;
+                    }
+                </style>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let sectionCount = 0;
+        let todoCount = 0;
+
+        // Progress tracking
+        function updateProgress() {
+            const progress = (sectionCount / 10) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        // Section toggle functionality
+        function toggleSection(header) {
+            const section = header.parentElement;
+            section.classList.toggle('active');
+            
+            if (section.classList.contains('active')) {
+                const sectionNum = parseInt(section.dataset.section);
+                if (sectionNum > sectionCount) {
+                    sectionCount = sectionNum;
+                    updateProgress();
+                }
+            }
+        }
+
+        // Section 1: Text Content
+        function changeText() {
+            const target = document.getElementById('textTarget');
+            const messages = [
+                'Text has been changed!',
+                'JavaScript is powerful!',
+                'DOM manipulation rocks!',
+                'You\'re learning fast!',
+                'Keep practicing!'
+            ];
+            target.textContent = messages[Math.floor(Math.random() * messages.length)];
+        }
+
+        function getTextContent() {
+            const target = document.getElementById('textTarget');
+            alert('Current text: "' + target.textContent + '"');
+        }
+
+        // Section 2: Attributes
+        function changeAttributes() {
+            const img = document.getElementById('attrTarget');
+            const colors = ['e74c3c', '3498db', '27ae60', 'f39c12', '9b59b6'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            
+            img.setAttribute('src', `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' fill='%23${randomColor}'/%3E%3Ctext x='60' y='65' text-anchor='middle' fill='white' font-size='14'%3EUpdated!%3C/text%3E%3C/svg%3E`);
+            img.setAttribute('title', `Image with color #${randomColor}`);
+            img.setAttribute('data-color', randomColor);
+            img.style.transform = 'scale(1.1)';
+            setTimeout(() => img.style.transform = 'scale(1)', 300);
+        }
+
+        function showAttributes() {
+            const img = document.getElementById('attrTarget');
+            const info = document.getElementById('attrInfo');
+            const attrs = [];
+            for (let i = 0; i < img.attributes.length; i++) {
+                const attr = img.attributes[i];
+                attrs.push(`${attr.name}: "${attr.value}"`);
+            }
+            info.innerHTML = '<strong>Current Attributes:</strong><br>' + attrs.join('<br>');
+        }
+
+        // Section 3: Inline Styles
+        function randomStyle() {
+            const target = document.getElementById('styleTarget');
+            const colors = ['#e74c3c', '#3498db', '#27ae60', '#f39c12', '#9b59b6', '#e67e22'];
+            const sizes = ['16px', '20px', '24px', '18px'];
+            const transforms = ['rotate(5deg)', 'rotate(-5deg)', 'scale(1.1)', 'skew(5deg)'];
+            
+            target.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            target.style.fontSize = sizes[Math.floor(Math.random() * sizes.length)];
+            target.style.transform = transforms[Math.floor(Math.random() * transforms.length)];
+            target.style.borderRadius = Math.floor(Math.random() * 20) + 'px';
+        }
+
+        function resetStyle() {
+            const target = document.getElementById('styleTarget');
+            target.style.cssText = 'width: 200px; height: 100px; background: #3498db; color: white; display: flex; align-items: center; justify-content: center; border-radius: 8px; transition: all 0.3s ease;';
+        }
+
+        // Section 4: Classes and IDs
+        function addClass() {
+            const target = document.getElementById('classTarget');
+            const classes = ['highlight-class', 'border-class', 'rotate-class'];
+            const randomClass = classes[Math.floor(Math.random() * classes.length)];
+            target.classList.add(randomClass);
+            updateClassInfo();
+        }
+
+        function removeClass() {
+            const target = document.getElementById('classTarget');
+            const classes = ['highlight-class', 'border-class', 'rotate-class'];
+            classes.forEach(cls => target.classList.remove(cls));
+            updateClassInfo();
+        }
+
+        function toggleClass() {
+            const target = document.getElementById('classTarget');
+            target.classList.toggle('highlight-class');
+            updateClassInfo();
+        }
+
+        function changeId() {
+            const target = document.getElementById('classTarget');
+            const newId = 'element-' + Math.floor(Math.random() * 1000);
+            target.id = newId;
+            updateClassInfo();
+        }
+
+        function updateClassInfo() {
+            const target = document.querySelector('[id^="classTarget"], [id^="element-"]');
+            const info = document.getElementById('classInfo');
+            info.textContent = `Current ID: ${target.id}, Classes: ${target.className}`;
+        }
+
+        // Section 5: Parent and Children
+        function showParent() {
+            const child2 = document.getElementById('child2');
+            const parent = child2.parentNode;
+            const info = document.getElementById('navInfo');
+            info.innerHTML = `<strong>Parent of child2:</strong> ${parent.tagName}#${parent.id}`;
+            highlightElement(parent);
+        }
+
+        function showChildren() {
+            const parent = document.getElementById('parentDiv');
+            const children = parent.children;
+            const info = document.getElementById('navInfo');
+            let childInfo = '<strong>Children of parentDiv:</strong><br>';
+            for (let i = 0; i < children.length; i++) {
+                childInfo += `${i + 1}. ${children[i].tagName}${children[i].id ? '#' + children[i].id : ''} - "${children[i].textContent}"<br>`;
+            }
+            info.innerHTML = childInfo;
+            Array.from(children).forEach(child => highlightElement(child));
+        }
+
+        function showSiblings() {
+            const child2 = document.getElementById('child2');
+            const info = document.getElementById('navInfo');
+            const prev = child2.previousElementSibling;
+            const next = child2.nextElementSibling;
+            
+            info.innerHTML = `<strong>Siblings of child2:</strong><br>
+                Previous: ${prev ? prev.textContent : 'none'}<br>
+                Next: ${next ? next.textContent : 'none'}`;
+            
+            if (prev) highlightElement(prev);
+            if (next) highlightElement(next);
+        }
+
+        function highlightElement(element) {
+            element.style.background = '#f39c12';
+            element.style.color = 'white';
+            setTimeout(() => {
+                element.style.background = '';
+                element.style.color = '';
+            }, 2000);
+        }
+
+        // Section 6: Creating Elements
+        let elementCounter = 0;
+        
+        function createElement(type) {
+            const container = document.getElementById('createdElements');
+            if (container.children.length === 1 && container.children[0].style.color === 'rgb(127, 140, 147)') {
+                container.innerHTML = '';
+            }
+            
+            const element = document.createElement(type);
+            elementCounter++;
+            
+            switch(type) {
+                case 'div':
+                    element.textContent = `Div #${elementCounter}`;
+                    element.style.cssText = 'background: #3498db; color: white; padding: 10px; margin: 5px; border-radius: 4px; display: inline-block;';
+                    break;
+                case 'p':
+                    element.textContent = `This is paragraph #${elementCounter}`;
+                    element.style.cssText = 'color: #2c3e50; margin: 5px; padding: 8px; background: #ecf0f1; border-radius: 4px;';
+                    break;
+                case 'button':
+                    element.textContent = `Button #${elementCounter}`;
+                    element.className = 'btn';
+                    element.style.margin = '5px';
+                    element.onclick = () => alert(`You clicked button #${elementCounter}!`);
+                    break;
+            }
+            
+            element.classList.add('created-element');
+            container.appendChild(element);
+        }
+
+        function clearCreated() {
+            const container = document.getElementById('createdElements');
+            container.innerHTML = '<p style="color: #7f8c8d; text-align: center;">Created elements will appear here</p>';
+            elementCounter = 0;
+        }
+
+        // Section 7: Building Elements
+        let cardCounter = 0;
+        
+        function buildCard() {
+            const container = document.getElementById('cardContainer');
+            cardCounter++;
+            
+            const card = document.createElement('div');
+            card.style.cssText = `
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                padding: 15px;
+                margin: 10px;
+                width: 200px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                background: white;
+                transition: transform 0.3s ease;
+            `;
+            card.onmouseenter = () => card.style.transform = 'translateY(-5px)';
+            card.onmouseleave = () => card.style.transform = 'translateY(0)';
+            
+            const title = document.createElement('h3');
+            title.textContent = `Card ${cardCounter}`;
+            title.style.cssText = 'color: #2c3e50; margin-bottom: 10px; font-size: 1.2em;';
+            
+            const image = document.createElement('div');
+            image.style.cssText = `
+                width: 100%;
+                height: 120px;
+                background: linear-gradient(45deg, #3498db, #2980b9);
+                border-radius: 4px;
+                margin-bottom: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-weight: bold;
+            `;
+            image.textContent = '📸 Image';
+            
+            const content = document.createElement('p');
+            content.textContent = `This is the content for card number ${cardCounter}. It demonstrates building complex elements.`;
+            content.style.cssText = 'color: #7f8c8d; line-height: 1.4; font-size: 0.9em;';
+            
+            card.appendChild(title);
+            card.appendChild(image);
+            card.appendChild(content);
+            container.appendChild(card);
+        }
+
+        function buildList() {
+            const container = document.getElementById('cardContainer');
+            
+            const listContainer = document.createElement('div');
+            listContainer.style.cssText = `
+                border: 1px solid #27ae60;
+                border-radius: 8px;
+                padding: 20px;
+                margin: 10px;
+                width: 300px;
+                background: white;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            `;
+            
+            const listTitle = document.createElement('h3');
+            listTitle.textContent = 'Dynamic List';
+            listTitle.style.cssText = 'color: #27ae60; margin-bottom: 15px; border-bottom: 2px solid #27ae60; padding-bottom: 5px;';
+            
+            const list = document.createElement('ul');
+            list.style.cssText = 'list-style: none; padding: 0;';
+            
+            const items = ['First item', 'Second item', 'Third item', 'Fourth item'];
+            items.forEach((itemText, index) => {
+                const li = document.createElement('li');
+                li.textContent = itemText;
+                li.style.cssText = `
+                    padding: 8px;
+                    margin: 5px 0;
+                    background: #f8f9fa;
+                    border-radius: 4px;
+                    border-left: 3px solid #27ae60;
+                    transition: background 0.3s ease;
+                `;
+                li.onmouseenter = () => li.style.background = '#e8f5e8';
+                li.onmouseleave = () => li.style.background = '#f8f9fa';
+                list.appendChild(li);
+            });
+            
+            listContainer.appendChild(listTitle);
+            listContainer.appendChild(list);
+            container.appendChild(listContainer);
+        }
+
+        function buildForm() {
+            const container = document.getElementById('cardContainer');
+            
+            const form = document.createElement('form');
+            form.style.cssText = `
+                border: 1px solid #e74c3c;
+                border-radius: 8px;
+                padding: 20px;
+                margin: 10px;
+                width: 280px;
+                background: white;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            `;
+            
+            const formTitle = document.createElement('h3');
+            formTitle.textContent = 'Contact Form';
+            formTitle.style.cssText = 'color: #e74c3c; margin-bottom: 15px; text-align: center;';
+            
+            const nameInput = document.createElement('input');
+            nameInput.type = 'text';
+            nameInput.placeholder = 'Your Name';
+            nameInput.style.cssText = `
+                width: 100%;
+                padding: 10px;
+                margin: 8px 0;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                box-sizing: border-box;
+            `;
+            
+            const emailInput = document.createElement('input');
+            emailInput.type = 'email';
+            emailInput.placeholder = 'Your Email';
+            emailInput.style.cssText = nameInput.style.cssText;
+            
+            const submitBtn = document.createElement('button');
+            submitBtn.type = 'button';
+            submitBtn.textContent = 'Submit';
+            submitBtn.style.cssText = `
+                width: 100%;
+                padding: 12px;
+                background: #e74c3c;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 16px;
+                margin-top: 10px;
+            `;
+            submitBtn.onclick = () => alert('Form submitted! (Demo only)');
+            
+            form.appendChild(formTitle);
+            form.appendChild(nameInput);
+            form.appendChild(emailInput);
+            form.appendChild(submitBtn);
+            container.appendChild(form);
+        }
+
+        // Section 8: Adding Children
+        let appendCounter = 0;
+        
+        function appendElement() {
+            const container = document.getElementById('appendContainer');
+            appendCounter++;
+            
+            const element = document.createElement('div');
+            element.textContent = `Appended Element ${appendCounter}`;
+            element.style.cssText = 'background: #27ae60; color: white; padding: 10px; margin: 5px; border-radius: 4px; text-align: center;';
+            
+            container.appendChild(element);
+        }
+
+        function prependElement() {
+            const container = document.getElementById('appendContainer');
+            appendCounter++;
+            
+            const element = document.createElement('div');
+            element.textContent = `Prepended Element ${appendCounter}`;
+            element.style.cssText = 'background: #e74c3c; color: white; padding: 10px; margin: 5px; border-radius: 4px; text-align: center;';
+            
+            container.prepend(element);
+        }
+
+        function insertBeforeElement() {
+            const container = document.getElementById('appendContainer');
+            const reference = container.children[Math.floor(container.children.length / 2)];
+            appendCounter++;
+            
+            const element = document.createElement('div');
+            element.textContent = `Inserted Element ${appendCounter}`;
+            element.style.cssText = 'background: #f39c12; color: white; padding: 10px; margin: 5px; border-radius: 4px; text-align: center;';
+            
+            if (reference) {
+                container.insertBefore(element, reference);
+            } else {
+                container.appendChild(element);
+            }
+        }
+
+        function clearAppendDemo() {
+            const container = document.getElementById('appendContainer');
+            container.innerHTML = `
+                <div style="background: #ecf0f1; padding: 10px; margin: 5px; border-radius: 4px; text-align: center;">
+                    Original Element
+                </div>
+            `;
+            appendCounter = 0;
+        }
+
+        // Section 9: Insert Adjacent Element
+        let insertCounter = 0;
+        
+        function insertAdjacent(position) {
+            const target = document.getElementById('targetElement');
+            insertCounter++;
+            
+            const element = document.createElement('div');
+            element.textContent = `${position} ${insertCounter}`;
+            
+            const colors = {
+                'beforebegin': '#e74c3c',
+                'afterbegin': '#27ae60',
+                'beforeend': '#f39c12',
+                'afterend': '#9b59b6'
+            };
+            
+            element.style.cssText = `
+                background: ${colors[position]};
+                color: white;
+                padding: 8px 12px;
+                margin: 5px;
+                border-radius: 4px;
+                display: inline-block;
+                font-size: 12px;
+                animation: slideIn 0.5s ease;
+            `;
+            
+            target.insertAdjacentElement(position, element);
+            
+            // Update info
+            const info = document.getElementById('insertInfo');
+            info.textContent = `Inserted element at position: ${position}`;
+        }
+
+        function clearInsertDemo() {
+            const demoArea = document.getElementById('insertDemo');
+            const target = document.getElementById('targetElement');
+            
+            // Remove all adjacent elements but keep the target
+            const parent = target.parentNode;
+            while (parent.firstChild !== target) {
+                parent.removeChild(parent.firstChild);
+            }
+            while (parent.lastChild !== target) {
+                parent.removeChild(parent.lastChild);
+            }
+            target.innerHTML = 'Target Element';
+            
+            const info = document.getElementById('insertInfo');
+            info.textContent = 'Use buttons to insert elements at different positions';
+            insertCounter = 0;
+        }
+
+        // Final Challenge: To-Do List
+        let todoIdCounter = 0;
+        
+        function addTodo() {
+            const input = document.getElementById('todoInput');
+            const todoText = input.value.trim();
+            
+            if (!todoText) {
+                alert('Please enter a task!');
+                return;
+            }
+            
+            const todoList = document.getElementById('todoList');
+            
+            // Clear the placeholder text if it exists
+            if (todoList.children.length === 1 && todoList.children[0].tagName === 'P') {
+                todoList.innerHTML = '';
+            }
+            
+            // Create todo item
+            const todoItem = document.createElement('div');
+            todoItem.className = 'todo-item';
+            todoItem.dataset.id = ++todoIdCounter;
+            
+            // Create checkbox
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.className = 'todo-checkbox';
+            checkbox.onchange = () => toggleTodo(todoItem);
+            
+            // Create text
+            const textSpan = document.createElement('span');
+            textSpan.className = 'todo-text';
+            textSpan.textContent = todoText;
+            
+            // Create delete button
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'todo-delete';
+            deleteBtn.textContent = '✕';
+            deleteBtn.onclick = () => deleteTodo(todoItem);
+            
+            // Assemble todo item
+            todoItem.appendChild(checkbox);
+            todoItem.appendChild(textSpan);
+            todoItem.appendChild(deleteBtn);
+            
+            // Add to list with animation
+            todoList.appendChild(todoItem);
+            
+            // Clear input and update stats
+            input.value = '';
+            updateTodoStats();
+        }
+
+        function toggleTodo(todoItem) {
+            todoItem.classList.toggle('completed');
+            updateTodoStats();
+        }
+
+        function deleteTodo(todoItem) {
+            todoItem.style.animation = 'slideOut 0.3s ease';
+            setTimeout(() => {
+                todoItem.remove();
+                updateTodoStats();
+                
+                // Add placeholder if no todos left
+                const todoList = document.getElementById('todoList');
+                if (todoList.children.length === 0) {
+                    todoList.innerHTML = '<p style="text-align: center; color: #95a5a6; font-style: italic;">No tasks yet. Add one above!</p>';
+                }
+            }, 300);
+        }
+
+        function updateTodoStats() {
+            const todoList = document.getElementById('todoList');
+            const todos = todoList.querySelectorAll('.todo-item');
+            const completed = todoList.querySelectorAll('.todo-item.completed');
+            const remaining = todos.length - completed.length;
+            
+            const stats = document.getElementById('todoStats');
+            stats.textContent = `Total: ${todos.length} tasks | Completed: ${completed.length} | Remaining: ${remaining}`;
+        }
+
+        // Allow Enter key to add todo
+        document.addEventListener('DOMContentLoaded', function() {
+            const todoInput = document.getElementById('todoInput');
+            if (todoInput) {
+                todoInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        addTodo();
+                    }
+                });
+            }
+        });
+
+        // Add slideOut animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideOut {
+                from {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+                to {
+                    opacity: 0;
+                    transform: translateX(-100%);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
