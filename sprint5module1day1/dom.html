@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>JavaScript DOM Lesson</title>
+		<style>
+			body {
+				font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+				max-width: 1200px;
+				margin: 0 auto;
+				padding: 20px;
+				background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+				color: #333;
+				line-height: 1.6;
+			}
+
+			.container {
+				background: white;
+				border-radius: 15px;
+				padding: 30px;
+				box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+			}
+
+			h1 {
+				color: #4a5568;
+				text-align: center;
+				margin-bottom: 40px;
+				font-size: 2.5em;
+				text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+			}
+
+			.lesson-section {
+				margin-bottom: 40px;
+				padding: 25px;
+				border-radius: 12px;
+				background: #f8fafc;
+				border-left: 5px solid #667eea;
+			}
+
+			.lesson-section h2 {
+				color: #2d3748;
+				margin-bottom: 15px;
+				font-size: 1.5em;
+			}
+
+			.demo-area {
+				background: white;
+				padding: 20px;
+				border-radius: 8px;
+				margin: 15px 0;
+				border: 2px dashed #e2e8f0;
+			}
+
+			.code-example {
+				background: #2d3748;
+				color: #e2e8f0;
+				padding: 15px;
+				border-radius: 8px;
+				font-family: "Courier New", monospace;
+				margin: 10px 0;
+				overflow-x: auto;
+				white-space: pre-wrap;
+			}
+
+			button {
+				background: linear-gradient(45deg, #667eea, #764ba2);
+				color: white;
+				border: none;
+				padding: 12px 20px;
+				border-radius: 6px;
+				cursor: pointer;
+				font-size: 14px;
+				margin: 5px;
+				transition: transform 0.2s, box-shadow 0.2s;
+			}
+
+			button:hover {
+				transform: translateY(-2px);
+				box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+			}
+
+			.highlight {
+				background-color: #ffd700 !important;
+				padding: 5px;
+				border-radius: 4px;
+				transition: background-color 0.3s;
+			}
+
+			.demo-item {
+				padding: 10px;
+				margin: 5px;
+				background: #e2e8f0;
+				border-radius: 6px;
+				display: inline-block;
+			}
+
+			.special-item {
+				background: #fed7d7;
+				color: #c53030;
+			}
+
+			.output {
+				background: #1a202c;
+				color: #68d391;
+				padding: 15px;
+				border-radius: 8px;
+				font-family: monospace;
+				margin: 10px 0;
+				min-height: 50px;
+				white-space: pre-wrap;
+				overflow-x: auto;
+			}
+
+			.instruction {
+				background: #bee3f8;
+				padding: 15px;
+				border-radius: 8px;
+				margin: 10px 0;
+				border-left: 4px solid #3182ce;
+			}
+
+			.warning {
+				background: #fef5e7;
+				padding: 15px;
+				border-radius: 8px;
+				margin: 10px 0;
+				border-left: 4px solid #dd6b20;
+				color: #744210;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<h1>🌐 JavaScript DOM Manipulation Lesson</h1>
+
+			<!-- Lesson 1: Understanding the DOM -->
+			<div class="lesson-section">
+				<h2>1. Understanding the DOM</h2>
+				<p>
+					The DOM (Document Object Model) is a programming interface that
+					represents the structure of HTML documents as a tree of objects. Every
+					HTML element becomes a node in this tree.
+				</p>
+
+				<div class="demo-area">
+					<h3>DOM Tree Structure:</h3>
+					<ul id="dom-tree">
+						<li>
+							Document
+							<ul>
+								<li>
+									HTML
+									<ul>
+										<li>HEAD (title, meta, style...)</li>
+										<li>
+											BODY
+											<ul>
+												<li>DIV (containers)</li>
+												<li>P (paragraphs)</li>
+												<li>BUTTON (interactive elements)</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+
+				<div class="instruction">
+					<strong>🔍 Try this:</strong> Open Chrome DevTools (F12) and look at
+					the Elements tab to see the DOM structure of this page!
+				</div>
+			</div>
+
+			<!-- Lesson 2: Inspecting the DOM with Chrome -->
+			<div class="lesson-section">
+				<h2>2. Inspecting the DOM with Chrome DevTools</h2>
+				<p>
+					Chrome DevTools is your best friend for DOM inspection and debugging.
+				</p>
+
+				<div class="demo-area">
+					<p
+						id="inspect-me"
+						style="background: #e6fffa; padding: 10px; border-radius: 5px"
+					>
+						Right-click on this paragraph and select "Inspect Element"
+					</p>
+					<button onclick="highlightInspectElement()">
+						Highlight This Element
+					</button>
+				</div>
+
+				<div class="instruction">
+					<strong>📝 Instructions:</strong>
+					<br />1. Right-click on the paragraph above <br />2. Select "Inspect
+					Element" <br />3. Notice how the element is highlighted in the
+					Elements tab <br />4. Try editing the text directly in DevTools!
+				</div>
+
+				<div class="code-example">
+					// You can also inspect elements programmatically console.log('Current
+					page title:', document.title); console.log('Number of paragraphs:',
+					document.querySelectorAll('p').length);
+				</div>
+			</div>
+
+			<!-- Lesson 3: Inspecting the Global Object -->
+			<div class="lesson-section">
+				<h2>3. Inspecting the Global Object</h2>
+				<p>
+					The global object in browsers is `window`. It contains all global
+					variables, functions, and objects.
+				</p>
+
+				<div class="demo-area">
+					<button onclick="inspectGlobalObject()">Inspect Global Object</button>
+					<button onclick="showGlobalProperties()">
+						Show Some Global Properties
+					</button>
+					<div id="global-output" class="output">
+						Click buttons above to explore the global object...
+					</div>
+				</div>
+
+				<div class="code-example">
+					// Common global object properties console.log('Window object:',
+					window); console.log('Document object:', window.document);
+					console.log('Location:', window.location.href); console.log('User
+					Agent:', window.navigator.userAgent);
+				</div>
+			</div>
+
+			<!-- Lesson 4: Inspecting a DOM Node -->
+			<div class="lesson-section">
+				<h2>4. Inspecting a DOM Node</h2>
+				<p>
+					Every DOM element is a node with properties and methods you can
+					inspect and manipulate.
+				</p>
+
+				<div class="demo-area">
+					<div
+						id="sample-node"
+						class="demo-item"
+						data-info="This is sample data"
+					>
+						I'm a sample DOM node with various properties!
+					</div>
+					<button onclick="inspectDOMNode()">Inspect This Node</button>
+					<div id="node-output" class="output">
+						Node inspection results will appear here...
+					</div>
+				</div>
+
+				<div class="code-example">
+					// Inspecting node properties const node =
+					document.getElementById('sample-node'); console.log('Node type:',
+					node.nodeType); console.log('Tag name:', node.tagName);
+					console.log('Text content:', node.textContent); console.log('HTML
+					content:', node.innerHTML); console.log('Attributes:',
+					node.attributes);
+				</div>
+			</div>
+
+			<!-- Lesson 5: Selecting Nodes by ID -->
+			<div class="lesson-section">
+				<h2>5. Selecting Nodes by ID</h2>
+				<p>
+					Use `document.getElementById()` to select a single element by its
+					unique ID.
+				</p>
+
+				<div class="demo-area">
+					<div id="unique-element" class="demo-item">I have a unique ID!</div>
+					<div id="another-unique" class="demo-item">
+						I also have a unique ID!
+					</div>
+					<button onclick="selectById()">Select by ID</button>
+					<div id="id-output" class="output">
+						Selection results will appear here...
+					</div>
+				</div>
+
+				<div class="code-example">
+					// Selecting by ID const element =
+					document.getElementById('unique-element'); console.log('Selected
+					element:', element); console.log('Element text:',
+					element.textContent); // Modifying the selected element
+					element.style.backgroundColor = 'yellow'; element.textContent = 'I was
+					selected and modified!';
+				</div>
+			</div>
+
+			<!-- Lesson 6: Selecting Collections by Class and Tag -->
+			<div class="lesson-section">
+				<h2>6. Selecting Collections by Class and Tag</h2>
+				<p>
+					Use `getElementsByClassName()` and `getElementsByTagName()` to select
+					multiple elements.
+				</p>
+
+				<div class="demo-area">
+					<div class="demo-class">Item 1 with demo-class</div>
+					<div class="demo-class">Item 2 with demo-class</div>
+					<div class="demo-class special-item">
+						Item 3 with demo-class and special-item
+					</div>
+					<p>I'm a paragraph</p>
+					<p>I'm another paragraph</p>
+					<button onclick="selectByClassAndTag()">Select by Class & Tag</button>
+					<div id="collection-output" class="output">
+						Collection results will appear here...
+					</div>
+				</div>
+
+				<div class="code-example">
+					// Selecting by class name const classBased =
+					document.getElementsByClassName('demo-class'); console.log('Elements
+					with demo-class:', classBased); // Selecting by tag name const
+					tagBased = document.getElementsByTagName('p'); console.log('All
+					paragraphs:', tagBased); // Note: These return HTMLCollections, not
+					arrays!
+				</div>
+			</div>
+
+			<!-- Lesson 7: Selecting with querySelector -->
+			<div class="lesson-section">
+				<h2>7. Selecting Nodes with querySelector()</h2>
+				<p>
+					`querySelector()` uses CSS selectors to find the FIRST matching
+					element.
+				</p>
+
+				<div class="demo-area">
+					<div class="query-demo" data-level="1">First query-demo element</div>
+					<div class="query-demo" data-level="2">Second query-demo element</div>
+					<div class="query-demo special-item" data-level="3">
+						Third query-demo (special)
+					</div>
+					<button onclick="useQuerySelector()">Use querySelector</button>
+					<div id="query-output" class="output">
+						querySelector results will appear here...
+					</div>
+				</div>
+
+				<div class="code-example">
+					// Using querySelector with different selectors const firstDemo =
+					document.querySelector('.query-demo'); const specialDemo =
+					document.querySelector('.query-demo.special-item'); const byAttribute
+					= document.querySelector('[data-level="2"]'); const byId =
+					document.querySelector('#some-id'); console.log('First .query-demo:',
+					firstDemo); console.log('Special demo:', specialDemo); console.log('By
+					attribute:', byAttribute);
+				</div>
+			</div>
+
+			<!-- Lesson 8: Selecting with querySelectorAll -->
+			<div class="lesson-section">
+				<h2>8. Selecting Node Lists with querySelectorAll()</h2>
+				<p>`querySelectorAll()` returns ALL matching elements as a NodeList.</p>
+
+				<div class="demo-area">
+					<div class="all-demo">All-demo item 1</div>
+					<div class="all-demo">All-demo item 2</div>
+					<div class="all-demo">All-demo item 3</div>
+					<div class="all-demo special-item">All-demo item 4 (special)</div>
+					<button onclick="useQuerySelectorAll()">Use querySelectorAll</button>
+					<div id="all-output" class="output">
+						querySelectorAll results will appear here...
+					</div>
+				</div>
+
+				<div class="code-example">
+					// Using querySelectorAll const allDemos =
+					document.querySelectorAll('.all-demo'); const allSpecial =
+					document.querySelectorAll('.special-item'); const allDivs =
+					document.querySelectorAll('div'); console.log('All .all-demo
+					elements:', allDemos); console.log('NodeList length:',
+					allDemos.length); console.log('First element:', allDemos[0]);
+				</div>
+			</div>
+
+			<!-- Lesson 9: Iterating with forEach -->
+			<div class="lesson-section">
+				<h2>9. Iterating over a NodeList with forEach()</h2>
+				<p>
+					NodeLists have a `forEach()` method that lets you iterate over all
+					elements.
+				</p>
+
+				<div class="demo-area">
+					<div class="iterate-demo">Iterate item 1</div>
+					<div class="iterate-demo">Iterate item 2</div>
+					<div class="iterate-demo">Iterate item 3</div>
+					<div class="iterate-demo">Iterate item 4</div>
+					<button onclick="iterateWithForEach()">Iterate with forEach</button>
+					<button onclick="resetIteration()">Reset</button>
+					<div id="iterate-output" class="output">
+						Iteration results will appear here...
+					</div>
+				</div>
+
+				<div class="code-example">
+					// Iterating over NodeList with forEach const items =
+					document.querySelectorAll('.iterate-demo'); items.forEach((item,
+					index) => { console.log(`Item ${index}:`, item.textContent);
+					item.style.backgroundColor = `hsl(${index * 60}, 70%, 80%)`;
+					item.textContent = `Modified item ${index + 1}`; }); // You can also
+					use for...of loop for (const item of items) {
+					item.classList.add('processed'); }
+				</div>
+			</div>
+
+			<div class="warning">
+				<strong>⚠️ Remember:</strong>
+				<br />• `getElementById()` returns a single element or null <br />•
+				`getElementsByClassName()` and `getElementsByTagName()` return
+				HTMLCollections <br />• `querySelector()` returns the first match or
+				null <br />• `querySelectorAll()` returns a NodeList <br />• Only
+				NodeLists have the `forEach()` method built-in
+			</div>
+		</div>
+
+		<script>
+			// Lesson 2: Highlight inspect element
+			function highlightInspectElement() {
+				const element = document.getElementById("inspect-me");
+				element.style.backgroundColor = "#ffd700";
+				element.style.transform = "scale(1.05)";
+				element.style.transition = "all 0.3s";
+
+				setTimeout(() => {
+					element.style.backgroundColor = "#e6fffa";
+					element.style.transform = "scale(1)";
+				}, 2000);
+			}
+
+			// Lesson 3: Inspect global object
+			function inspectGlobalObject() {
+				const output = document.getElementById("global-output");
+				output.textContent = `Global object inspection:
+• window === window: ${window === window}
+• typeof window: ${typeof window}
+• window.location.href: ${window.location.href}
+• window.innerWidth: ${window.innerWidth}
+• window.innerHeight: ${window.innerHeight}
+
+Open Console (F12) to see the full window object!`;
+
+				console.log("Full window object:", window);
+				console.log("Window properties count:", Object.keys(window).length);
+			}
+
+			function showGlobalProperties() {
+				const output = document.getElementById("global-output");
+				const props = [
+					"document",
+					"console",
+					"localStorage",
+					"sessionStorage",
+					"location",
+					"navigator",
+				];
+
+				let result = "Some important global properties:\n\n";
+				props.forEach((prop) => {
+					result += `• window.${prop}: ${typeof window[prop]}\n`;
+				});
+
+				output.textContent = result;
+			}
+
+			// Lesson 4: Inspect DOM node
+			function inspectDOMNode() {
+				const node = document.getElementById("sample-node");
+				const output = document.getElementById("node-output");
+
+				output.textContent = `DOM Node Properties:
+• nodeType: ${node.nodeType} (1 = Element)
+• nodeName: ${node.nodeName}
+• tagName: ${node.tagName}
+• className: ${node.className}
+• id: ${node.id}
+• textContent: "${node.textContent}"
+• innerHTML: "${node.innerHTML}"
+• data-info: ${node.getAttribute("data-info")}
+• childNodes count: ${node.childNodes.length}
+• parentNode: ${node.parentNode.tagName}`;
+
+				console.log("Full node object:", node);
+				console.log("Node attributes:", node.attributes);
+			}
+
+			// Lesson 5: Select by ID
+			function selectById() {
+				const element1 = document.getElementById("unique-element");
+				const element2 = document.getElementById("another-unique");
+				const output = document.getElementById("id-output");
+
+				// Modify the elements
+				element1.style.backgroundColor = "#90EE90";
+				element1.textContent = "Selected by ID! 🎯";
+
+				element2.style.backgroundColor = "#FFB6C1";
+				element2.textContent = "I was also selected! 🎯";
+
+				output.textContent = `Selection Results:
+• getElementById('unique-element'): ${element1 ? "Found!" : "Not found"}
+• Element text was: "${element1.textContent}"
+• getElementById('another-unique'): ${element2 ? "Found!" : "Not found"}
+• Element text was: "${element2.textContent}"
+
+Both elements have been modified!`;
+			}
+
+			// Lesson 6: Select by class and tag
+			function selectByClassAndTag() {
+				const byClass = document.getElementsByClassName("demo-class");
+				const byTag = document.getElementsByTagName("p");
+				const output = document.getElementById("collection-output");
+
+				// Modify elements selected by class
+				for (let i = 0; i < byClass.length; i++) {
+					byClass[i].style.backgroundColor = `hsl(${i * 120}, 60%, 80%)`;
+					byClass[i].textContent += ` [Modified ${i + 1}]`;
+				}
+
+				// Modify elements selected by tag
+				for (let i = 0; i < byTag.length; i++) {
+					byTag[i].style.fontWeight = "bold";
+					byTag[i].style.color = "#2d3748";
+				}
+
+				output.textContent = `Collection Results:
+• getElementsByClassName('demo-class'): ${byClass.length} elements
+• getElementsByTagName('p'): ${byTag.length} elements
+
+Note: These return HTMLCollections (live collections)
+- byClass.length: ${byClass.length}
+- byTag.length: ${byTag.length}
+- byClass is HTMLCollection: ${byClass instanceof HTMLCollection}
+
+All elements have been modified!`;
+			}
+
+			// Lesson 7: querySelector
+			function useQuerySelector() {
+				const first = document.querySelector(".query-demo");
+				const special = document.querySelector(".query-demo.special-item");
+				const byAttr = document.querySelector('[data-level="2"]');
+				const output = document.getElementById("query-output");
+
+				// Modify selected elements
+				if (first) {
+					first.style.backgroundColor = "#FFE4B5";
+					first.textContent += " [Selected First]";
+				}
+
+				if (special) {
+					special.style.backgroundColor = "#DDA0DD";
+					special.textContent += " [Selected Special]";
+				}
+
+				if (byAttr) {
+					byAttr.style.border = "3px solid #FF6347";
+					byAttr.textContent += " [Selected by Attribute]";
+				}
+
+				output.textContent = `querySelector Results:
+• querySelector('.query-demo'): ${first ? "Found first match" : "Not found"}
+• querySelector('.query-demo.special-item'): ${
+					special ? "Found" : "Not found"
+				}  
+• querySelector('[data-level="2"]'): ${byAttr ? "Found" : "Not found"}
+
+Key Points:
+- querySelector returns ONLY the first match
+- Uses CSS selector syntax
+- Returns null if no match found
+- More flexible than getElementById`;
+			}
+
+			// Lesson 8: querySelectorAll
+			function useQuerySelectorAll() {
+				const allDemos = document.querySelectorAll(".all-demo");
+				const allSpecial = document.querySelectorAll(".special-item");
+				const output = document.getElementById("all-output");
+
+				// Modify all selected elements
+				allDemos.forEach((item, index) => {
+					item.style.backgroundColor = `hsl(${index * 90}, 70%, 85%)`;
+					item.textContent += ` [#${index + 1}]`;
+				});
+
+				output.textContent = `querySelectorAll Results:
+• querySelectorAll('.all-demo'): ${allDemos.length} elements
+• querySelectorAll('.special-item'): ${allSpecial.length} elements
+
+NodeList Properties:
+- allDemos.length: ${allDemos.length}
+- allDemos is NodeList: ${allDemos instanceof NodeList}
+- Has forEach method: ${typeof allDemos.forEach === "function"}
+- Can use for...of loop: Yes
+- Can access by index: allDemos[0] = ${
+					allDemos[0] ? allDemos[0].tagName : "undefined"
+				}
+
+All .all-demo elements have been modified!`;
+			}
+
+			// Lesson 9: forEach iteration
+			function iterateWithForEach() {
+				const items = document.querySelectorAll(".iterate-demo");
+				const output = document.getElementById("iterate-output");
+
+				let result = "forEach Iteration Results:\n\n";
+
+				items.forEach((item, index) => {
+					// Modify each item
+					item.style.backgroundColor = `hsl(${index * 60}, 70%, 80%)`;
+					item.style.padding = "15px";
+					item.style.margin = "5px";
+					item.style.borderRadius = "8px";
+					item.style.transform = `rotate(${index * 2}deg)`;
+					item.textContent = `🎨 Styled item ${index + 1}`;
+
+					result += `Index ${index}: "${item.textContent}"\n`;
+				});
+
+				result += `\nTotal items processed: ${items.length}
+NodeList forEach vs Array forEach:
+- Same syntax: items.forEach((item, index) => {})
+- Passes element and index
+- Can break with return (not break keyword)
+- Modern browsers support this`;
+
+				output.textContent = result;
+			}
+
+			function resetIteration() {
+				const items = document.querySelectorAll(".iterate-demo");
+				const output = document.getElementById("iterate-output");
+
+				items.forEach((item, index) => {
+					item.style.backgroundColor = "";
+					item.style.padding = "";
+					item.style.margin = "";
+					item.style.borderRadius = "";
+					item.style.transform = "";
+					item.textContent = `Iterate item ${index + 1}`;
+				});
+
+				output.textContent = "All items have been reset to original state.";
+			}
+
+			// Initialize the lesson
+			console.log("🎓 DOM Manipulation Lesson Loaded!");
+			console.log(
+				"💡 Tip: Open DevTools (F12) to see additional console output and inspect elements"
+			);
+			console.log(
+				'🔍 Try right-clicking on any element and selecting "Inspect Element"'
+			);
+			console.log(document)
+			console.log(document.documentElement);
+			// console.log("Page title:", document.title);
+			// console.log("URL:", document.URL);
+			// console.log("Number of images:", document.images.length);
+			console.log(window === this);
+		</script>
+	</body>
+</html>
