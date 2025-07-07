@@ -1,0 +1,1880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive JS Components Lesson</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --accent: #06b6d4;
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #e2e8f0;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --error: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg) 0%, #1e1b4b 100%);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff, #e2e8f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .lesson-nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            background: var(--card);
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .lesson-content {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border);
+            margin-bottom: 2rem;
+        }
+
+        .lesson-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .lesson-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            border-radius: 2px;
+        }
+
+        .code-editor {
+            background: #0d1117;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .code-editor::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+        }
+
+        .code-editor textarea {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: var(--text);
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            resize: vertical;
+            min-height: 200px;
+            outline: none;
+        }
+
+        .code-editor pre {
+            background: transparent;
+            color: var(--text);
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+
+        .output-area {
+            background: var(--bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border: 1px solid var(--border);
+            min-height: 100px;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin: 0.5rem 0.5rem 0.5rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), #16a34a);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: var(--border);
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.3s ease;
+            border-radius: 3px;
+        }
+
+        .component-demo {
+            background: var(--bg);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 1rem 0;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .card-component {
+            background: linear-gradient(135deg, var(--card), #2d3748);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 1rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: inline-block;
+            min-width: 250px;
+        }
+
+        .card-component:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+        }
+
+        .card-description {
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .card-button {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .card-button:hover {
+            transform: scale(1.05);
+        }
+
+        .hint-box {
+            background: rgba(6, 182, 212, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+        }
+
+        .error-box {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--error);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            color: var(--error);
+        }
+
+        .success-box {
+            background: rgba(34, 197, 94, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+        }
+
+        .file-tab {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--border);
+            border-radius: 8px 8px 0 0;
+            margin-right: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-tab.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .step-indicator::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--border);
+            transform: translateY(-50%);
+        }
+
+        .step {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+
+        .step.completed {
+            background: var(--success);
+            color: white;
+        }
+
+        .step.active {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* Component Styles */
+        .fancy-button {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .fancy-button:hover {
+            transform: scale(1.05);
+        }
+
+        .card {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 10px;
+            border: 1px solid #334155;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            display: inline-block;
+            max-width: 300px;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .lesson-nav {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Interactive JavaScript Components</h1>
+            <p>Master the art of building reusable, interactive components with modern JavaScript techniques</p>
+        </div>
+
+        <div class="lesson-nav">
+            <button class="nav-btn active" data-section="intro">Introduction</button>
+            <button class="nav-btn" data-section="basics">HTML + CSS + JS</button>
+            <button class="nav-btn" data-section="separation">File Separation</button>
+            <button class="nav-btn" data-section="functions">Component Functions</button>
+            <button class="nav-btn" data-section="hierarchy">Element Hierarchy</button>
+            <button class="nav-btn" data-section="interactivity">Interactivity & DOM</button>
+            <button class="nav-btn" data-section="final">Final Project</button>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: 14%"></div>
+        </div>
+
+        <div class="lesson-content">
+            <!-- Introduction Section -->
+            <div class="lesson-section active" id="intro">
+                <h2 class="section-title">🌟 Welcome to Component Mastery</h2>
+                <p>Components are the building blocks of modern web applications. Think of them as LEGO blocks - once you create a component, you can reuse it anywhere in your application!</p>
+                
+                <div class="component-demo">
+                    <h3>Here's what we'll build together:</h3>
+                    <div id="demo-components"></div>
+                </div>
+
+                <div class="hint-box">
+                    <h4>💡 What You'll Learn</h4>
+                    <p>By the end of this lesson, you'll be able to create reusable components that combine HTML structure, CSS styling, and JavaScript functionality into neat, organized packages.</p>
+                </div>
+
+                <div class="step-indicator">
+                    <div class="step active">1</div>
+                    <div class="step">2</div>
+                    <div class="step">3</div>
+                    <div class="step">4</div>
+                    <div class="step">5</div>
+                    <div class="step">6</div>
+                    <div class="step">7</div>
+                </div>
+
+                <button class="btn btn-primary" onclick="nextSection()">Let's Get Started! 🚀</button>
+            </div>
+
+            <!-- HTML + CSS + JS Basics Section -->
+            <div class="lesson-section" id="basics">
+                <h2 class="section-title">🎨 Combining HTML, CSS, and JavaScript</h2>
+                <p>Let's start by understanding how the three pillars of web development work together:</p>
+                
+                <div class="hint-box">
+                    <strong>HTML</strong> provides structure, <strong>CSS</strong> adds styling, and <strong>JavaScript</strong> brings interactivity!
+                </div>
+
+                <h3>Try it yourself - Create a simple button component:</h3>
+                <div class="code-editor">
+                    <textarea id="basics-code" placeholder="Write your HTML + CSS + JS here...">
+// Let's create a simple interactive button
+function createFancyButton(text, onClick) {
+    const button = document.createElement('button');
+    button.className = 'fancy-button';
+    button.textContent = text;
+    
+    button.addEventListener('click', function() {
+        // Add a fun animation
+        button.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            button.style.transform = 'scale(1.05)';
+            setTimeout(() => {
+                button.style.transform = 'scale(1)';
+            }, 100);
+        }, 100);
+        
+        if (onClick) onClick();
+    });
+    
+    return button;
+}
+
+// Create and add a button
+const myButton = createFancyButton('Click me!', function() {
+    alert('Hello from your component! 🎉');
+});
+
+// Add to output area
+const output = document.getElementById('basics-output');
+output.appendChild(myButton);
+                    </textarea>
+                </div>
+
+                <button class="btn btn-success" onclick="runBasicsCode()">Run Code 🏃‍♂️</button>
+                <button class="btn btn-primary" onclick="nextSection()">Next: File Separation</button>
+
+                <div class="output-area" id="basics-output">
+                    <p>Your component will appear here when you run the code!</p>
+                </div>
+            </div>
+
+            <!-- File Separation Section -->
+            <div class="lesson-section" id="separation">
+                <h2 class="section-title">📁 Separating HTML, CSS, and JavaScript</h2>
+                <p>As projects grow, mixing everything together becomes messy. Let's learn to organize our code properly!</p>
+
+                <div class="file-tabs">
+                    <div class="file-tab active" onclick="showFile('html')">index.html</div>
+                    <div class="file-tab" onclick="showFile('css')">styles.css</div>
+                    <div class="file-tab" onclick="showFile('js')">script.js</div>
+                </div>
+
+                <div class="code-editor" id="html-file">
+                    <pre>
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Component Example&lt;/title&gt;
+    &lt;link rel="stylesheet" href="styles.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id="app"&gt;
+        &lt;!-- Our components will go here --&gt;
+    &lt;/div&gt;
+    &lt;script src="script.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+                    </pre>
+                </div>
+
+                <div class="code-editor" id="css-file" style="display: none;">
+                    <pre>
+/* styles.css */
+.card {
+    background: #1e293b;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 10px;
+    border: 1px solid #334155;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+    display: inline-block;
+    max-width: 300px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+}
+
+.card-title {
+    color: #06b6d4;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.card-description {
+    color: #94a3b8;
+    margin-bottom: 15px;
+}
+
+.card-button {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.card-button:hover {
+    transform: scale(1.05);
+}
+                    </pre>
+                </div>
+
+                <div class="code-editor" id="js-file" style="display: none;">
+                    <pre>
+// script.js
+console.log('JavaScript file loaded successfully!');
+
+// Component factory function
+function createCard(title, description, buttonText) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    
+    const titleEl = document.createElement('h3');
+    titleEl.className = 'card-title';
+    titleEl.textContent = title;
+    
+    const descEl = document.createElement('p');
+    descEl.className = 'card-description';
+    descEl.textContent = description;
+    
+    const button = document.createElement('button');
+    button.className = 'card-button';
+    button.textContent = buttonText;
+    
+    card.appendChild(titleEl);
+    card.appendChild(descEl);
+    card.appendChild(button);
+    
+    return card;
+}
+
+// Initialize the app
+document.addEventListener('DOMContentLoaded', function() {
+    const app = document.getElementById('app');
+    const sampleCard = createCard(
+        'Welcome Card',
+        'This is a reusable component!',
+        'Learn More'
+    );
+    app.appendChild(sampleCard);
+});
+                    </pre>
+                </div>
+
+                <div class="hint-box">
+                    <h4>🎯 Why Separate Files?</h4>
+                    <p><strong>Organization:</strong> Easy to find and edit specific parts<br>
+                    <strong>Reusability:</strong> CSS and JS can be used across multiple HTML pages<br>
+                    <strong>Collaboration:</strong> Different team members can work on different files<br>
+                    <strong>Maintenance:</strong> Easier to debug and update</p>
+                </div>
+
+                <button class="btn btn-primary" onclick="nextSection()">Next: Component Functions</button>
+            </div>
+
+            <!-- Component Functions Section -->
+            <div class="lesson-section" id="functions">
+                <h2 class="section-title">🔧 Building Components with Functions</h2>
+                <p>Now let's create our first proper component function! This is where the magic happens.</p>
+
+                <div class="hint-box">
+                    <h4>🎯 Component Function Goals</h4>
+                    <p>A good component function should:</p>
+                    <ul>
+                        <li>Take parameters for customization</li>
+                        <li>Create and return DOM elements</li>
+                        <li>Be reusable with different data</li>
+                        <li>Handle its own styling and behavior</li>
+                    </ul>
+                </div>
+
+                <h3>Let's build a Card component:</h3>
+                <div class="code-editor">
+                    <textarea id="function-code" placeholder="Create your component function here...">
+function createCard(title, description, buttonText, onButtonClick) {
+    // Create the main card element
+    const card = document.createElement('div');
+    card.className = 'card';
+    
+    // Create title element
+    const titleElement = document.createElement('h3');
+    titleElement.className = 'card-title';
+    titleElement.textContent = title;
+    titleElement.style.color = '#06b6d4';
+    titleElement.style.fontSize = '1.2em';
+    titleElement.style.marginBottom = '10px';
+    
+    // Create description element
+    const descElement = document.createElement('p');
+    descElement.className = 'card-description';
+    descElement.textContent = description;
+    descElement.style.color = '#94a3b8';
+    descElement.style.marginBottom = '15px';
+    
+    // Create button element
+    const button = document.createElement('button');
+    button.className = 'card-button';
+    button.textContent = buttonText;
+    button.style.background = 'linear-gradient(135deg, #6366f1, #8b5cf6)';
+    button.style.color = 'white';
+    button.style.border = 'none';
+    button.style.padding = '8px 16px';
+    button.style.borderRadius = '6px';
+    button.style.cursor = 'pointer';
+    button.style.transition = 'transform 0.3s ease';
+    
+    // Add hover effect
+    button.addEventListener('mouseenter', () => {
+        button.style.transform = 'scale(1.05)';
+    });
+    
+    button.addEventListener('mouseleave', () => {
+        button.style.transform = 'scale(1)';
+    });
+    
+    // Add click event to button
+    button.addEventListener('click', function() {
+        if (onButtonClick) {
+            onButtonClick(title);
+        } else {
+            alert('Button clicked on: ' + title);
+        }
+    });
+    
+    // Assemble the card
+    card.appendChild(titleElement);
+    card.appendChild(descElement);
+    card.appendChild(button);
+    
+    return card;
+}
+
+// Test our component!
+const output = document.getElementById('function-output');
+output.innerHTML = ''; // Clear previous content
+
+const testCard1 = createCard(
+    'My First Component',
+    'This card was created using a reusable function!',
+    'Click Me!',
+    function(cardTitle) {
+        alert('You clicked: ' + cardTitle + ' 🎉');
+    }
+);
+
+const testCard2 = createCard(
+    'Another Card',
+    'Same function, different content!',
+    'Try This!',
+    function(cardTitle) {
+        alert('This is from: ' + cardTitle + ' ✨');
+    }
+);
+
+// Add to the page
+output.appendChild(testCard1);
+output.appendChild(testCard2);
+                    </textarea>
+                </div>
+
+                <button class="btn btn-success" onclick="runFunctionCode()">Test Your Component 🧪</button>
+                <button class="btn btn-primary" onclick="nextSection()">Next: Element Hierarchy</button>
+
+                <div class="output-area" id="function-output">
+                    <p>Your component will appear here when you run the code!</p>
+                </div>
+            </div>
+
+            <!-- Element Hierarchy Section -->
+            <div class="lesson-section" id="hierarchy">
+                <h2 class="section-title">🏗️ Returning Element Hierarchies</h2>
+                <p>Components often need complex structures. Let's learn to build hierarchies of elements!</p>
+
+                <div class="hint-box">
+                    <h4>🌳 Element Hierarchy</h4>
+                    <p>Think of DOM elements like a family tree - parents contain children, and children can have their own children!</p>
+                </div>
+
+                <h3>Build a User Profile Component:</h3>
+                <div class="code-editor">
+                    <textarea id="hierarchy-code" placeholder="Create a complex component hierarchy...">
+function createUserProfile(userData) {
+    // Main container
+    const profile = document.createElement('div');
+    profile.style.background = '#1e293b';
+    profile.style.borderRadius = '16px';
+    profile.style.padding = '2rem';
+    profile.style.margin = '1rem 0';
+    profile.style.border = '1px solid #334155';
+    profile.style.maxWidth = '400px';
+    profile.style.color = '#e2e8f0';
+    
+    // Header section
+    const header = document.createElement('div');
+    header.style.display = 'flex';
+    header.style.alignItems = 'center';
+    header.style.gap = '1rem';
+    header.style.marginBottom = '1.5rem';
+    
+    // Avatar
+    const avatar = document.createElement('div');
+    avatar.textContent = userData.name.charAt(0).toUpperCase();
+    avatar.style.width = '60px';
+    avatar.style.height = '60px';
+    avatar.style.borderRadius = '50%';
+    avatar.style.background = 'linear-gradient(135deg, #6366f1, #8b5cf6)';
+    avatar.style.display = 'flex';
+    avatar.style.alignItems = 'center';
+    avatar.style.justifyContent = 'center';
+    avatar.style.fontSize = '1.5rem';
+    avatar.style.fontWeight = 'bold';
+    avatar.style.color = 'white';
+    
+    // User info
+    const userInfo = document.createElement('div');
+    
+    const name = document.createElement('h2');
+    name.textContent = userData.name;
+    name.style.margin = '0 0 0.5rem 0';
+    name.style.color = '#e2e8f0';
+    
+    const email = document.createElement('p');
+    email.textContent = userData.email;
+    email.style.margin = '0';
+    email.style.color = '#94a3b8';
+    
+    // Build hierarchy
+    userInfo.appendChild(name);
+    userInfo.appendChild(email);
+    
+    header.appendChild(avatar);
+    header.appendChild(userInfo);
+    
+    // Stats section
+    const stats = document.createElement('div');
+    stats.style.display = 'flex';
+    stats.style.justifyContent = 'space-around';
+    stats.style.marginBottom = '1.5rem';
+    
+    userData.stats.forEach(stat => {
+        const statElement = document.createElement('div');
+        statElement.style.textAlign = 'center';
+        
+        const statValue = document.createElement('span');
+        statValue.textContent = stat.value;
+        statValue.style.display = 'block';
+        statValue.style.fontSize = '1.5rem';
+        statValue.style.fontWeight = 'bold';
+        statValue.style.color = '#06b6d4';
+        
+        const statLabel = document.createElement('span');
+        statLabel.textContent = stat.label;
+        statLabel.style.display = 'block';
+        statLabel.style.fontSize = '0.9rem';
+        statLabel.style.color = '#94a3b8';
+        
+        statElement.appendChild(statValue);
+        statElement.appendChild(statLabel);
+        stats.appendChild(statElement);
+    });
+    
+    // Actions section
+    const actions = document.createElement('div');
+    actions.style.display = 'flex';
+    actions.style.gap = '1rem';
+    actions.style.justifyContent = 'center';
+    
+    const followBtn = document.createElement('button');
+    followBtn.textContent = 'Follow';
+    followBtn.style.background = 'linear-gradient(135deg, #6366f1, #8b5cf6)';
+    followBtn.style.color = 'white';
+    followBtn.style.border = 'none';
+    followBtn.style.padding = '0.75rem 1.5rem';
+    followBtn.style.borderRadius = '12px';
+    followBtn.style.cursor = 'pointer';
+    followBtn.style.transition = 'transform 0.3s ease';
+    
+    const messageBtn = document.createElement('button');
+    messageBtn.textContent = 'Message';
+    messageBtn.style.background = '#334155';
+    messageBtn.style.color = '#e2e8f0';
+    messageBtn.style.border = 'none';
+    messageBtn.style.padding = '0.75rem 1.5rem';
+    messageBtn.style.borderRadius = '12px';
+    messageBtn.style.cursor = 'pointer';
+    messageBtn.style.transition = 'transform 0.3s ease';
+    
+    // Add hover effects
+    followBtn.addEventListener('mouseenter', () => {
+        followBtn.style.transform = 'translateY(-2px)';
+    });
+    followBtn.addEventListener('mouseleave', () => {
+        followBtn.style.transform = 'translateY(0)';
+    });
+    
+    messageBtn.addEventListener('mouseenter', () => {
+        messageBtn.style.transform = 'translateY(-2px)';
+    });
+    messageBtn.addEventListener('mouseleave', () => {
+        messageBtn.style.transform = 'translateY(0)';
+    });
+    
+    // Add click events
+    followBtn.onclick = () => alert('Following ' + userData.name + ' 👥');
+    messageBtn.onclick = () => alert('Messaging ' + userData.name + ' 💬');
+    
+    actions.appendChild(followBtn);
+    actions.appendChild(messageBtn);
+    
+    // Final assembly
+    profile.appendChild(header);
+    profile.appendChild(stats);
+    profile.appendChild(actions);
+    
+    return profile;
+}
+
+// Test data
+const testUser = {
+    name: 'Alex Johnson',
+    email: 'alex@example.com',
+    stats: [
+        { value: '1.2K', label: 'Followers' },
+        { value: '847', label: 'Following' },
+        { value: '23', label: 'Posts' }
+    ]
+};
+
+// Create and add the component
+const output = document.getElementById('hierarchy-output');
+output.innerHTML = ''; // Clear previous content
+
+const userProfile = createUserProfile(testUser);
+output.appendChild(userProfile);
+
+// Create another profile to show reusability
+const testUser2 = {
+    name: 'Sarah Chen',
+    email: 'sarah@example.com',
+    stats: [
+        { value: '892', label: 'Followers' },
+        { value: '234', label: 'Following' },
+        { value: '67', label: 'Posts' }
+    ]
+};
+
+const userProfile2 = createUserProfile(testUser2);
+output.appendChild(userProfile2);
+                </textarea>
+                </div>
+
+                <button class="btn btn-success" onclick="runHierarchyCode()">Build Your Hierarchy 🏗️</button>
+                <button class="btn btn-primary" onclick="nextSection()">Next: Interactivity</button>
+
+                <div class="output-area" id="hierarchy-output">
+                    <p>Your complex component will appear here!</p>
+                </div>
+            </div>
+
+            <!-- Interactivity Section -->
+            <div class="lesson-section" id="interactivity">
+                <h2 class="section-title">⚡ Adding Interactivity and DOM Attachment</h2>
+                <p>Let's bring our components to life with events, animations, and dynamic behavior!</p>
+
+                <div class="hint-box">
+                    <h4>🎮 Interactivity Essentials</h4>
+                    <p>Great interactive components should:</p>
+                    <ul>
+                        <li>Respond to user actions (clicks, hovers, inputs)</li>
+                        <li>Update their state dynamically</li>
+                        <li>Communicate with other components</li>
+                        <li>Handle edge cases gracefully</li>
+                    </ul>
+                </div>
+
+                <h3>Create an Interactive Counter Component:</h3>
+                <div class="code-editor">
+                    <textarea id="interactivity-code" placeholder="Make your component interactive...">
+function createInteractiveCounter(initialValue = 0, options = {}) {
+    let count = initialValue;
+    const maxValue = options.max || 100;
+    const minValue = options.min || 0;
+    const step = options.step || 1;
+    
+    // Main container
+    const counter = document.createElement('div');
+    counter.style.background = '#1e293b';
+    counter.style.borderRadius = '12px';
+    counter.style.padding = '1.5rem';
+    counter.style.margin = '1rem';
+    counter.style.border = '1px solid #334155';
+    counter.style.textAlign = 'center';
+    counter.style.minWidth = '200px';
+    counter.style.display = 'inline-block';
+    counter.style.outline = 'none';
+    counter.tabIndex = 0; // Make focusable
+    
+    // Title
+    const title = document.createElement('h3');
+    title.textContent = options.title || 'Interactive Counter';
+    title.style.color = '#06b6d4';
+    title.style.margin = '0 0 1rem 0';
+    
+    // Display
+    const display = document.createElement('div');
+    display.textContent = count;
+    display.style.fontSize = '2rem';
+    display.style.fontWeight = 'bold';
+    display.style.color = '#06b6d4';
+    display.style.margin = '1rem 0';
+    display.style.transition = 'all 0.3s ease';
+    
+    // Controls
+    const controls = document.createElement('div');
+    controls.style.display = 'flex';
+    controls.style.gap = '0.5rem';
+    controls.style.justifyContent = 'center';
+    
+    // Decrease button
+    const decreaseBtn = document.createElement('button');
+    decreaseBtn.textContent = '-';
+    decreaseBtn.style.width = '40px';
+    decreaseBtn.style.height = '40px';
+    decreaseBtn.style.border = '1px solid #334155';
+    decreaseBtn.style.borderRadius = '8px';
+    decreaseBtn.style.background = '#0f172a';
+    decreaseBtn.style.color = '#e2e8f0';
+    decreaseBtn.style.cursor = 'pointer';
+    decreaseBtn.style.fontSize = '1.2rem';
+    decreaseBtn.style.fontWeight = 'bold';
+    decreaseBtn.style.transition = 'all 0.3s ease';
+    
+    // Increase button
+    const increaseBtn = document.createElement('button');
+    increaseBtn.textContent = '+';
+    increaseBtn.style.width = '40px';
+    increaseBtn.style.height = '40px';
+    increaseBtn.style.border = '1px solid #334155';
+    increaseBtn.style.borderRadius = '8px';
+    increaseBtn.style.background = '#0f172a';
+    increaseBtn.style.color = '#e2e8f0';
+    increaseBtn.style.cursor = 'pointer';
+    increaseBtn.style.fontSize = '1.2rem';
+    increaseBtn.style.fontWeight = 'bold';
+    increaseBtn.style.transition = 'all 0.3s ease';
+    
+    // Reset button
+    const resetBtn = document.createElement('button');
+    resetBtn.textContent = 'Reset';
+    resetBtn.style.padding = '0 1rem';
+    resetBtn.style.height = '40px';
+    resetBtn.style.border = '1px solid #334155';
+    resetBtn.style.borderRadius = '8px';
+    resetBtn.style.background = '#0f172a';
+    resetBtn.style.color = '#e2e8f0';
+    resetBtn.style.cursor = 'pointer';
+    resetBtn.style.fontSize = '0.9rem';
+    resetBtn.style.transition = 'all 0.3s ease';
+    
+    // Update display function
+    function updateDisplay() {
+        display.textContent = count;
+        
+        // Visual feedback
+        display.style.transform = 'scale(1.2)';
+        display.style.color = count > initialValue ? '#22c55e' : 
+                             count < initialValue ? '#ef4444' : '#06b6d4';
+        
+        setTimeout(() => {
+            display.style.transform = 'scale(1)';
+        }, 150);
+        
+        // Update button states
+        decreaseBtn.disabled = count <= minValue;
+        increaseBtn.disabled = count >= maxValue;
+        
+        if (decreaseBtn.disabled) {
+            decreaseBtn.style.opacity = '0.5';
+            decreaseBtn.style.cursor = 'not-allowed';
+        } else {
+            decreaseBtn.style.opacity = '1';
+            decreaseBtn.style.cursor = 'pointer';
+        }
+        
+        if (increaseBtn.disabled) {
+            increaseBtn.style.opacity = '0.5';
+            increaseBtn.style.cursor = 'not-allowed';
+        } else {
+            increaseBtn.style.opacity = '1';
+            increaseBtn.style.cursor = 'pointer';
+        }
+        
+        // Trigger custom event
+        counter.dispatchEvent(new CustomEvent('counterChange', {
+            detail: { value: count, previous: count - step }
+        }));
+    }
+    
+    // Add hover effects
+    [decreaseBtn, increaseBtn, resetBtn].forEach(btn => {
+        btn.addEventListener('mouseenter', () => {
+            if (!btn.disabled) {
+                btn.style.background = '#6366f1';
+                btn.style.color = 'white';
+                btn.style.transform = 'scale(1.1)';
+            }
+        });
+        
+        btn.addEventListener('mouseleave', () => {
+            if (!btn.disabled) {
+                btn.style.background = '#0f172a';
+                btn.style.color = '#e2e8f0';
+                btn.style.transform = 'scale(1)';
+            }
+        });
+    });
+    
+    // Event listeners
+    decreaseBtn.addEventListener('click', () => {
+        if (count > minValue) {
+            count -= step;
+            updateDisplay();
+        }
+    });
+    
+    increaseBtn.addEventListener('click', () => {
+        if (count < maxValue) {
+            count += step;
+            updateDisplay();
+        }
+    });
+    
+    resetBtn.addEventListener('click', () => {
+        count = initialValue;
+        updateDisplay();
+    });
+    
+    // Keyboard support
+    counter.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowUp') {
+            increaseBtn.click();
+        } else if (e.key === 'ArrowDown') {
+            decreaseBtn.click();
+        } else if (e.key === 'r' || e.key === 'R') {
+            resetBtn.click();
+        }
+    });
+    
+    // Focus indicator
+    counter.addEventListener('focus', () => {
+        counter.style.borderColor = '#6366f1';
+        counter.style.boxShadow = '0 0 0 2px rgba(99, 102, 241, 0.2)';
+    });
+    
+    counter.addEventListener('blur', () => {
+        counter.style.borderColor = '#334155';
+        counter.style.boxShadow = 'none';
+    });
+    
+    // Assemble component
+    controls.appendChild(decreaseBtn);
+    controls.appendChild(increaseBtn);
+    controls.appendChild(resetBtn);
+    
+    counter.appendChild(title);
+    counter.appendChild(display);
+    counter.appendChild(controls);
+    
+    // Initialize display
+    updateDisplay();
+    
+    // Public API
+    counter.getValue = () => count;
+    counter.setValue = (newValue) => {
+        if (newValue >= minValue && newValue <= maxValue) {
+            count = newValue;
+            updateDisplay();
+        }
+    };
+    
+    return counter;
+}
+
+// Create multiple interactive counters
+const output = document.getElementById('interactivity-output');
+output.innerHTML = ''; // Clear previous content
+
+const counter1 = createInteractiveCounter(0, {
+    title: 'Score Counter',
+    min: 0,
+    max: 50,
+    step: 1
+});
+
+const counter2 = createInteractiveCounter(10, {
+    title: 'Volume Control',
+    min: 0,
+    max: 100,
+    step: 5
+});
+
+// Add event listeners for communication between components
+counter1.addEventListener('counterChange', (e) => {
+    console.log('Score changed to:', e.detail.value);
+});
+
+counter2.addEventListener('counterChange', (e) => {
+    console.log('Volume changed to:', e.detail.value);
+});
+
+// Add to DOM
+output.appendChild(counter1);
+output.appendChild(counter2);
+
+// Demo: programmatic control
+setTimeout(() => {
+    counter1.setValue(25);
+    console.log('Score set to 25 programmatically');
+}, 2000);
+
+// Add instruction text
+const instructions = document.createElement('p');
+instructions.textContent = 'Try using arrow keys when focused on a counter, or press R to reset!';
+instructions.style.textAlign = 'center';
+instructions.style.color = '#94a3b8';
+instructions.style.marginTop = '1rem';
+output.appendChild(instructions);
+                </textarea>
+                </div>
+
+                <button class="btn btn-success" onclick="runInteractivityCode()">Make It Interactive! ⚡</button>
+                <button class="btn btn-primary" onclick="nextSection()">Final Project</button>
+
+                <div class="output-area" id="interactivity-output">
+                    <p>Your interactive components will appear here!</p>
+                </div>
+
+                <div class="success-box">
+                    <h4>🎉 Advanced Features You've Learned</h4>
+                    <p><strong>Event Handling:</strong> Click, keyboard, and custom events<br>
+                    <strong>State Management:</strong> Internal component state<br>
+                    <strong>Public API:</strong> Methods to control component externally<br>
+                    <strong>Visual Feedback:</strong> Animations and style changes<br>
+                    <strong>Component Communication:</strong> Custom events</p>
+                </div>
+            </div>
+
+            <!-- Final Project Section -->
+            <div class="lesson-section" id="final">
+                <h2 class="section-title">🎯 Final Project: Todo List Component</h2>
+                <p>Time to put everything together! Create a complete Todo List component that demonstrates all the concepts you've learned.</p>
+
+                <div class="hint-box">
+                    <h4>🎯 Project Requirements</h4>
+                    <p>Your Todo List should include:</p>
+                    <ul>
+                        <li>Add new todos with input validation</li>
+                        <li>Mark todos as complete/incomplete</li>
+                        <li>Delete todos with confirmation</li>
+                        <li>Filter todos (all, active, completed)</li>
+                        <li>Show statistics</li>
+                        <li>Smooth animations</li>
+                    </ul>
+                </div>
+
+                <h3>Build Your Todo List Component:</h3>
+                <div class="code-editor">
+                    <textarea id="final-code" placeholder="Create your masterpiece todo component here...">
+function createTodoList() {
+    let todos = [];
+    let filter = 'all'; // all, active, completed
+    let nextId = 1;
+    
+    // Main container
+    const todoApp = document.createElement('div');
+    todoApp.style.background = '#1e293b';
+    todoApp.style.borderRadius = '16px';
+    todoApp.style.padding = '2rem';
+    todoApp.style.margin = '1rem 0';
+    todoApp.style.border = '1px solid #334155';
+    todoApp.style.maxWidth = '500px';
+    todoApp.style.color = '#e2e8f0';
+    
+    // Header
+    const header = document.createElement('div');
+    
+    const title = document.createElement('h2');
+    title.textContent = '📝 My Todo List';
+    title.style.color = '#06b6d4';
+    title.style.marginBottom = '1rem';
+    title.style.textAlign = 'center';
+    
+    // Input section
+    const inputSection = document.createElement('div');
+    inputSection.style.display = 'flex';
+    inputSection.style.gap = '1rem';
+    inputSection.style.marginBottom = '1rem';
+    
+    const todoInput = document.createElement('input');
+    todoInput.type = 'text';
+    todoInput.placeholder = 'What needs to be done?';
+    todoInput.style.flex = '1';
+    todoInput.style.padding = '0.75rem';
+    todoInput.style.border = '1px solid #334155';
+    todoInput.style.borderRadius = '8px';
+    todoInput.style.background = '#0f172a';
+    todoInput.style.color = '#e2e8f0';
+    todoInput.style.fontSize = '1rem';
+    todoInput.style.outline = 'none';
+    todoInput.style.transition = 'border-color 0.3s ease';
+    
+    const addBtn = document.createElement('button');
+    addBtn.textContent = 'Add Todo';
+    addBtn.style.background = 'linear-gradient(135deg, #6366f1, #8b5cf6)';
+    addBtn.style.color = 'white';
+    addBtn.style.border = 'none';
+    addBtn.style.padding = '0.75rem 1.5rem';
+    addBtn.style.borderRadius = '12px';
+    addBtn.style.cursor = 'pointer';
+    addBtn.style.transition = 'transform 0.3s ease';
+    addBtn.style.whiteSpace = 'nowrap';
+    
+    // Filter buttons
+    const filterSection = document.createElement('div');
+    filterSection.style.display = 'flex';
+    filterSection.style.gap = '0.5rem';
+    filterSection.style.marginBottom = '1rem';
+    filterSection.style.justifyContent = 'center';
+    
+    const filters = [
+        { key: 'all', label: 'All' },
+        { key: 'active', label: 'Active' },
+        { key: 'completed', label: 'Completed' }
+    ];
+    
+    // Todo list container
+    const todoList = document.createElement('div');
+    
+    // Stats
+    const stats = document.createElement('div');
+    stats.style.display = 'flex';
+    stats.style.justifyContent = 'space-around';
+    stats.style.marginTop = '1rem';
+    stats.style.paddingTop = '1rem';
+    stats.style.borderTop = '1px solid #334155';
+    
+    // Create todo item element
+    function createTodoItem(todo) {
+        const item = document.createElement('div');
+        item.style.display = 'flex';
+        item.style.alignItems = 'center';
+        item.style.gap = '1rem';
+        item.style.padding = '1rem';
+        item.style.border = '1px solid #334155';
+        item.style.borderRadius = '8px';
+        item.style.marginBottom = '0.5rem';
+        item.style.background = '#0f172a';
+        item.style.transition = 'all 0.3s ease';
+        item.dataset.id = todo.id;
+        
+        if (todo.completed) {
+            item.style.opacity = '0.6';
+            item.style.background = 'rgba(34, 197, 94, 0.1)';
+        }
+        
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = todo.completed;
+        checkbox.style.width = '18px';
+        checkbox.style.height = '18px';
+        checkbox.style.cursor = 'pointer';
+        
+        const text = document.createElement('span');
+        text.textContent = todo.text;
+        text.style.flex = '1';
+        text.style.color = '#e2e8f0';
+        
+        if (todo.completed) {
+            text.style.textDecoration = 'line-through';
+            text.style.color = '#94a3b8';
+        }
+        
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = '🗑️';
+        deleteBtn.style.background = 'none';
+        deleteBtn.style.border = 'none';
+        deleteBtn.style.cursor = 'pointer';
+        deleteBtn.style.fontSize = '1.2rem';
+        deleteBtn.style.opacity = '0.7';
+        deleteBtn.style.transition = 'opacity 0.3s ease';
+        
+        // Toggle completion
+        checkbox.addEventListener('change', () => {
+            todo.completed = checkbox.checked;
+            
+            if (todo.completed) {
+                item.style.opacity = '0.6';
+                item.style.background = 'rgba(34, 197, 94, 0.1)';
+                text.style.textDecoration = 'line-through';
+                text.style.color = '#94a3b8';
+            } else {
+                item.style.opacity = '1';
+                item.style.background = '#0f172a';
+                text.style.textDecoration = 'none';
+                text.style.color = '#e2e8f0';
+            }
+            
+            updateStats();
+            
+            // Animation
+            item.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                item.style.transform = 'scale(1)';
+            }, 150);
+        });
+        
+        // Delete todo
+        deleteBtn.addEventListener('click', () => {
+            if (confirm('Are you sure you want to delete this todo?')) {
+                item.style.transform = 'translateX(-100%)';
+                item.style.opacity = '0';
+                
+                setTimeout(() => {
+                    todos = todos.filter(t => t.id !== todo.id);
+                    renderTodos();
+                    updateStats();
+                }, 300);
+            }
+        });
+        
+        // Hover effect for delete button
+        deleteBtn.addEventListener('mouseenter', () => {
+            deleteBtn.style.opacity = '1';
+        });
+        
+        deleteBtn.addEventListener('mouseleave', () => {
+            deleteBtn.style.opacity = '0.7';
+        });
+        
+        item.appendChild(checkbox);
+        item.appendChild(text);
+        item.appendChild(deleteBtn);
+        
+        return item;
+    }
+    
+    // Render todos based on current filter
+    function renderTodos() {
+        todoList.innerHTML = '';
+        
+        const filteredTodos = todos.filter(todo => {
+            if (filter === 'active') return !todo.completed;
+            if (filter === 'completed') return todo.completed;
+            return true;
+        });
+        
+        if (filteredTodos.length === 0) {
+            const emptyMessage = document.createElement('div');
+            emptyMessage.textContent = filter === 'all' ? 
+                'No todos yet. Add one above!' :
+                `No ${filter} todos.`;
+            emptyMessage.style.textAlign = 'center';
+            emptyMessage.style.color = '#94a3b8';
+            emptyMessage.style.padding = '2rem';
+            emptyMessage.style.fontStyle = 'italic';
+            todoList.appendChild(emptyMessage);
+        } else {
+            filteredTodos.forEach((todo, index) => {
+                const todoItem = createTodoItem(todo);
+                todoItem.style.animationDelay = `${index * 0.1}s`;
+                todoList.appendChild(todoItem);
+            });
+        }
+    }
+    
+    // Update statistics
+    function updateStats() {
+        const total = todos.length;
+        const completed = todos.filter(t => t.completed).length;
+        const active = total - completed;
+        
+        stats.innerHTML = `
+            <span style="font-size: 0.9rem; color: #94a3b8;">Total: ${total}</span>
+            <span style="font-size: 0.9rem; color: #94a3b8;">Active: ${active}</span>
+            <span style="font-size: 0.9rem; color: #94a3b8;">Completed: ${completed}</span>
+        `;
+    }
+    
+    // Add new todo
+    function addTodo() {
+        const text = todoInput.value.trim();
+        if (text === '') {
+            todoInput.style.borderColor = '#ef4444';
+            setTimeout(() => {
+                todoInput.style.borderColor = '#334155';
+            }, 1000);
+            return;
+        }
+        
+        const newTodo = {
+            id: nextId++,
+            text: text,
+            completed: false,
+            createdAt: new Date().toISOString()
+        };
+        
+        todos.unshift(newTodo); // Add to beginning
+        todoInput.value = '';
+        renderTodos();
+        updateStats();
+        
+        // Success feedback
+        todoInput.style.borderColor = '#22c55e';
+        setTimeout(() => {
+            todoInput.style.borderColor = '#334155';
+        }, 1000);
+    }
+    
+    // Create filter buttons
+    filters.forEach(filterOption => {
+        const btn = document.createElement('button');
+        btn.textContent = filterOption.label;
+        btn.style.padding = '0.5rem 1rem';
+        btn.style.border = '1px solid #334155';
+        btn.style.borderRadius = '6px';
+        btn.style.background = filter === filterOption.key ? '#6366f1' : '#0f172a';
+        btn.style.color = filter === filterOption.key ? 'white' : '#e2e8f0';
+        btn.style.cursor = 'pointer';
+        btn.style.transition = 'all 0.3s ease';
+        
+        btn.addEventListener('click', () => {
+            filter = filterOption.key;
+            
+            // Update all filter buttons
+            filterSection.querySelectorAll('button').forEach((b, i) => {
+                if (filters[i].key === filter) {
+                    b.style.background = '#6366f1';
+                    b.style.borderColor = '#6366f1';
+                    b.style.color = 'white';
+                } else {
+                    b.style.background = '#0f172a';
+                    b.style.borderColor = '#334155';
+                    b.style.color = '#e2e8f0';
+                }
+            });
+            
+            renderTodos();
+        });
+        
+        filterSection.appendChild(btn);
+    });
+    
+    // Add hover effects
+    addBtn.addEventListener('mouseenter', () => {
+        addBtn.style.transform = 'translateY(-2px)';
+    });
+    
+    addBtn.addEventListener('mouseleave', () => {
+        addBtn.style.transform = 'translateY(0)';
+    });
+    
+    todoInput.addEventListener('focus', () => {
+        todoInput.style.borderColor = '#6366f1';
+    });
+    
+    todoInput.addEventListener('blur', () => {
+        todoInput.style.borderColor = '#334155';
+    });
+    
+    // Event listeners
+    addBtn.addEventListener('click', addTodo);
+    
+    todoInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            addTodo();
+        }
+    });
+    
+    // Assemble the component
+    header.appendChild(title);
+    
+    inputSection.appendChild(todoInput);
+    inputSection.appendChild(addBtn);
+    
+    todoApp.appendChild(header);
+    todoApp.appendChild(inputSection);
+    todoApp.appendChild(filterSection);
+    todoApp.appendChild(todoList);
+    todoApp.appendChild(stats);
+    
+    // Initial render
+    renderTodos();
+    updateStats();
+    
+    // Public API
+    todoApp.addTodo = (text) => {
+        todoInput.value = text;
+        addTodo();
+    };
+    
+    todoApp.getTodos = () => [...todos];
+    
+    todoApp.clearCompleted = () => {
+        todos = todos.filter(t => !t.completed);
+        renderTodos();
+        updateStats();
+    };
+    
+    return todoApp;
+}
+
+// Create and add the todo list
+const output = document.getElementById('final-output');
+output.innerHTML = ''; // Clear previous content
+
+const myTodoList = createTodoList();
+output.appendChild(myTodoList);
+
+// Demo: Add some sample todos
+setTimeout(() => {
+    myTodoList.addTodo('Learn JavaScript components');
+}, 500);
+
+setTimeout(() => {
+    myTodoList.addTodo('Build awesome web apps');
+}, 1000);
+
+setTimeout(() => {
+    myTodoList.addTodo('Share knowledge with others');
+}, 1500);
+                </textarea>
+                </div>
+
+                <button class="btn btn-success" onclick="runFinalCode()">Launch Your Todo App! 🚀</button>
+
+                <div class="output-area" id="final-output">
+                    <p>Your complete todo application will appear here!</p>
+                </div>
+
+                <div class="success-box">
+                    <h4>🎉 Congratulations! You've mastered:</h4>
+                    <p><strong>✅ Component Architecture:</strong> Building reusable, encapsulated components<br>
+                    <strong>✅ File Organization:</strong> Separating HTML, CSS, and JavaScript<br>
+                    <strong>✅ Function-based Components:</strong> Creating components with functions<br>
+                    <strong>✅ Element Hierarchies:</strong> Building complex DOM structures<br>
+                    <strong>✅ Interactivity:</strong> Adding events and dynamic behavior<br>
+                    <strong>✅ State Management:</strong> Handling component state and data<br>
+                    <strong>✅ Public APIs:</strong> Creating interfaces for component control</p>
+                </div>
+
+                <div class="hint-box">
+                    <h4>🚀 Next Steps</h4>
+                    <p>Now that you've mastered components, try:</p>
+                    <ul>
+                        <li>Building a component library for reuse across projects</li>
+                        <li>Learning modern frameworks like React or Vue.js</li>
+                        <li>Adding TypeScript for better code organization</li>
+                        <li>Exploring component testing strategies</li>
+                        <li>Building more complex applications with multiple components</li>
+                    </ul>
+                </div>
+
+                <button class="btn btn-primary" onclick="resetLesson()">Start Over 🔄</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSection = 0;
+        const sections = ['intro', 'basics', 'separation', 'functions', 'hierarchy', 'interactivity', 'final'];
+        
+        // Initialize demo components on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            createDemoComponents();
+        });
+        
+        function createDemoComponents() {
+            const demoContainer = document.getElementById('demo-components');
+            if (!demoContainer) return;
+            
+            // Create sample components to show what we'll build
+            const components = [
+                { title: 'User Card', desc: 'Interactive user profile', btn: 'View Profile' },
+                { title: 'Counter', desc: 'Dynamic counter widget', btn: 'Count' },
+                { title: 'Todo Item', desc: 'Task management component', btn: 'Complete' }
+            ];
+            
+            components.forEach(comp => {
+                const card = document.createElement('div');
+                card.className = 'card-component';
+                
+                card.innerHTML = `
+                    <div class="card-title">${comp.title}</div>
+                    <div class="card-description">${comp.desc}</div>
+                    <button class="card-button">${comp.btn}</button>
+                `;
+                
+                demoContainer.appendChild(card);
+            });
+        }
+        
+        function nextSection() {
+            if (currentSection < sections.length - 1) {
+                currentSection++;
+                showSection(sections[currentSection]);
+                updateProgress();
+                updateStepIndicator();
+            }
+        }
+        
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.lesson-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show target section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Update navigation
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            const targetBtn = document.querySelector(`[data-section="${sectionId}"]`);
+            if (targetBtn) {
+                targetBtn.classList.add('active');
+            }
+            
+            // Update current section index
+            currentSection = sections.indexOf(sectionId);
+        }
+        
+        function updateProgress() {
+            const progress = ((currentSection + 1) / sections.length) * 100;
+            document.querySelector('.progress-fill').style.width = progress + '%';
+        }
+        
+        function updateStepIndicator() {
+            const steps = document.querySelectorAll('.step');
+            steps.forEach((step, index) => {
+                step.classList.remove('active', 'completed');
+                if (index < currentSection) {
+                    step.classList.add('completed');
+                } else if (index === currentSection) {
+                    step.classList.add('active');
+                }
+            });
+        }
+        
+        // Navigation event listeners
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const sectionId = btn.dataset.section;
+                showSection(sectionId);
+                updateProgress();
+                updateStepIndicator();
+            });
+        });
+        
+        // File tab functionality
+        function showFile(fileType) {
+            document.querySelectorAll('.file-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.code-editor').forEach(editor => {
+                editor.style.display = 'none';
+            });
+            
+            event.target.classList.add('active');
+            document.getElementById(fileType + '-file').style.display = 'block';
+        }
+        
+        // Code execution functions
+        function runBasicsCode() {
+            const code = document.getElementById('basics-code').value;
+            const output = document.getElementById('basics-output');
+            
+            try {
+                output.innerHTML = '<p>Running your code...</p>';
+                
+                // Execute the code in a safe context
+                const func = new Function(code);
+                func();
+                
+            } catch (error) {
+                output.innerHTML = `<div class="error-box">Error: ${error.message}</div>`;
+                console.error('Code execution error:', error);
+            }
+        }
+        
+        function runFunctionCode() {
+            const code = document.getElementById('function-code').value;
+            const output = document.getElementById('function-output');
+            
+            try {
+                output.innerHTML = '<p>Running your code...</p>';
+                
+                const func = new Function(code);
+                func();
+                
+            } catch (error) {
+                output.innerHTML = `<div class="error-box">Error: ${error.message}</div>`;
+                console.error('Code execution error:', error);
+            }
+        }
+        
+        function runHierarchyCode() {
+            const code = document.getElementById('hierarchy-code').value;
+            const output = document.getElementById('hierarchy-output');
+            
+            try {
+                output.innerHTML = '<p>Running your code...</p>';
+                
+                const func = new Function(code);
+                func();
+                
+            } catch (error) {
+                output.innerHTML = `<div class="error-box">Error: ${error.message}</div>`;
+                console.error('Code execution error:', error);
+            }
+        }
+        
+        function runInteractivityCode() {
+            const code = document.getElementById('interactivity-code').value;
+            const output = document.getElementById('interactivity-output');
+            
+            try {
+                output.innerHTML = '<p>Running your code...</p>';
+                
+                const func = new Function(code);
+                func();
+                
+            } catch (error) {
+                output.innerHTML = `<div class="error-box">Error: ${error.message}</div>`;
+                console.error('Code execution error:', error);
+            }
+        }
+        
+        function runFinalCode() {
+            const code = document.getElementById('final-code').value;
+            const output = document.getElementById('final-output');
+            
+            try {
+                output.innerHTML = '<p>Running your code...</p>';
+                
+                const func = new Function(code);
+                func();
+                
+            } catch (error) {
+                output.innerHTML = `<div class="error-box">Error: ${error.message}</div>`;
+                console.error('Code execution error:', error);
+            }
+        }
+        
+        function resetLesson() {
+            currentSection = 0;
+            showSection('intro');
+            updateProgress();
+            updateStepIndicator();
+            
+            // Clear all outputs
+            document.querySelectorAll('.output-area').forEach(area => {
+                area.innerHTML = '<p>Ready for your code!</p>';
+            });
+            
+            // Reset demo components
+            createDemoComponents();
+        }
+        
+        // Initialize
+        updateProgress();
+        updateStepIndicator();
+    </script>
+</body>
+</html>
