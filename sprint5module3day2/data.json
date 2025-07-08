@@ -1,0 +1,27 @@
+[
+    {
+        "title": "Build a JSON Card",
+        "description": "Understand how to represent data with structured JSON format",
+        "category": "Data Modeling"
+    },
+    {
+        "title": "Parse JSON with JavaScript",
+        "description":"Use JSON.parse to convert strings into usable objects",
+        "category": "Parsing"
+    },
+    {
+        "title": "Render DOM Components",
+        "description":"Create and insert HTML elements dynamically based on JSON data",
+        "category": "DOM Manipulation"
+    },
+    {
+        "title": "Fetch Data from an API",
+        "description":"Learn how to fetch external JSON data using fetch()",
+        "category": "Async"
+    },
+    {
+        "title": "Style Components Based on Data",
+        "description":"Add conditional styling on the category",
+        "category": "Styling"
+    }
+]
