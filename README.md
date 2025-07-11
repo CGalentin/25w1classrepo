@@ -60,12 +60,161 @@ The **Westeros Explorer** is a feature-rich web application that lets you explor
 
 ---
 
+## 🎯 Interactive GCA Practice Platform
+
+### 📍 Location: `gca_practice/`
+
+The **Interactive GCA Practice Platform** provides a comprehensive coding environment for students to prepare for the CodeSignal General Coding Assessment (GCA). Practice real algorithmic problems with instant feedback and comprehensive testing.
+
+![CodeSignal GCA](https://img.shields.io/badge/CodeSignal-GCA%20Practice-orange?style=for-the-badge)
+![Interactive](https://img.shields.io/badge/Environment-Interactive-purple?style=for-the-badge)
+![Algorithm](https://img.shields.io/badge/Focus-Algorithms-red?style=for-the-badge)
+
+### 🚀 **Key Features**
+
+#### ✍️ **Interactive Code Editor**
+- **Live code editing** in browser-based text areas
+- **Pre-populated function templates** with correct signatures
+- **Resizable editors** for comfortable coding experience
+- **Syntax highlighting** and clean formatting
+
+#### 🧪 **Comprehensive Testing System**
+- **5-6 test cases per problem** covering edge cases and typical scenarios
+- **Instant feedback** with ✅ pass/❌ fail indicators
+- **Detailed comparison** showing input, expected output, and your result
+- **Progress tracking** with "Passed X/Y test cases" summary
+
+#### 🎮 **Interactive Controls**
+- **▶️ Run Code**: Execute and test with first example for quick validation
+- **🧪 Test Solution**: Run comprehensive test suite with all cases
+- **🗑️ Clear**: Reset editor to original function template
+- **Real-time error detection** with helpful debugging messages
+
+#### 🎯 **Practice Problems**
+
+**4 Progressive Algorithm Problems:**
+
+1. **🟢 Array Centering** (Easy)
+   - Array manipulation with mathematical operations
+   - Practice: Average calculation, array mapping, rounding
+
+2. **🟢 Valid Parentheses** (Easy)
+   - String processing with balance validation
+   - Practice: Stack concepts, string iteration, boolean logic
+
+3. **🟡 Matrix Diagonal Sum** (Medium)
+   - 2D array processing with mathematical constraints
+   - Practice: Matrix traversal, index manipulation, edge cases
+
+4. **🟡 Longest Increasing Subsequence** (Medium)
+   - Dynamic programming fundamentals
+   - Practice: DP concepts, subsequence analysis, optimization
+
+### 📚 **How Students Use the Platform**
+
+#### **Getting Started**
+1. **Open** `gca_practice/practice_questions.html` in your browser
+2. **No setup required** - works directly in any modern browser
+3. **Start with Problem 1** and work through progressively
+
+#### **Coding Workflow**
+```
+📝 Write Code → ▶️ Run Code → 🧪 Test Solution → ✅ Verify Results → 🔄 Iterate
+```
+
+1. **📝 Write your solution** in the provided code editor
+2. **▶️ Click "Run Code"** to test with the first example
+3. **🧪 Click "Test Solution"** to run all comprehensive test cases
+4. **✅ Review results** - green for pass, red for fail with detailed feedback
+5. **🔄 Iterate and improve** until all test cases pass
+
+#### **Learning Benefits**
+- ⏰ **Time management practice** with 70-minute GCA simulation
+- 🧠 **Pattern recognition** across common algorithm types
+- 🐛 **Debugging skills** with real-time error feedback
+- 📊 **Progress tracking** to build confidence
+- 🎯 **GCA-style problems** matching actual assessment difficulty
+
+### 🛠️ **Technical Features**
+
+#### **Safe Code Execution**
+- **Browser-based JavaScript execution** using secure eval environment
+- **Error boundary protection** prevents crashes
+- **Syntax error detection** with clear messaging
+- **Runtime error handling** with detailed stack traces
+
+#### **Comprehensive Test Validation**
+- **JSON-based comparison** for accurate result checking
+- **Deep array comparison** for complex data structures
+- **Edge case coverage** including empty inputs, boundary values
+- **Performance consideration** with reasonable constraints
+
+#### **Responsive Design**
+- **Mobile-friendly interface** works on tablets and phones
+- **Flexible layout** adapts to different screen sizes
+- **Touch-optimized controls** for mobile devices
+
+### 🏆 **GCA Success Preparation**
+
+#### **Problem Categories Covered**
+- 🔢 **Array Manipulation**: Core data structure operations
+- 📝 **String Processing**: Text analysis and validation
+- 🏗️ **Matrix Operations**: 2D array handling
+- 🧠 **Dynamic Programming**: Optimization problem solving
+
+#### **Skills Developed**
+- ⚡ **Algorithm Implementation**: Converting logic to working code
+- 🔍 **Problem Analysis**: Breaking down complex requirements
+- 🧪 **Testing Strategy**: Validating solutions thoroughly
+- ⏰ **Time Management**: Balancing speed with accuracy
+
+#### **Assessment Simulation**
+- **Real GCA format** with progressive difficulty
+- **Time guidelines** matching actual assessment
+- **Problem complexity** similar to CodeSignal standards
+- **Multiple test cases** as in real GCA environment
+
+### 📁 **File Structure**
+```
+gca_practice/
+├── practice_questions.html     # Interactive coding environment
+└── gca_question_solution.html  # Complete solutions with explanations
+```
+
+### 🎓 **For Instructors**
+
+#### **Classroom Integration**
+- **Live coding sessions** with real-time student interaction
+- **Progress monitoring** by observing test case results
+- **Code review opportunities** using the solutions file
+- **Group problem-solving** with shared screen coding
+
+#### **Assessment Options**
+- **Individual practice** for homework assignments
+- **Timed challenges** to simulate real GCA conditions
+- **Peer coding** for collaborative learning
+- **Code quality discussions** using different solution approaches
+
+---
+
 ## 🚀 Getting Started
 
+### 🎯 **Quick Start Options**
+
+#### **For GCA Practice** (No setup required)
+1. **Open** `gca_practice/practice_questions.html` directly in your browser
+2. **Start coding** immediately with interactive problems
+3. **Perfect for students** preparing for CodeSignal assessments
+
+#### **For Westeros Explorer** (Requires local server)
+1. **Set up local server** (instructions below)
+2. **Explore full-stack development** with API integration
+3. **Great for learning** modern web development practices
+
 ### Prerequisites
-- **Python 3.x** (for local development server)
+- **Python 3.x** (for Westeros Explorer local development server)
 - **Modern web browser** (Chrome, Firefox, Safari, Edge)
-- **Internet connection** (for API calls)
+- **Internet connection** (for Westeros Explorer API calls)
 
 ### Installation & Setup
 
@@ -186,7 +335,10 @@ function parseLinkHeader(linkHeader) {
 
 ```
 25w1classrepo/
-├── sprint5module4day2/          # Enhanced Westeros Explorer
+├── gca_practice/                # 🎯 Interactive GCA Practice Platform
+│   ├── practice_questions.html # Interactive coding environment
+│   └── gca_question_solution.html # Complete solutions with explanations
+├── sprint5module4day2/          # 🛡️ Enhanced Westeros Explorer
 │   ├── app.js                   # Main application logic
 │   ├── index.html               # HTML structure
 │   ├── styles.css               # Complete styling
@@ -199,7 +351,7 @@ function parseLinkHeader(linkHeader) {
 ├── sprint5module3day2/          # JSON Data Handling
 ├── sprint5module4day1/          # Animation & Effects
 ├── Sprints_1-4/                 # Previous course modules
-└── README.md                    # This documentation
+└── README.md                    # This comprehensive documentation
 ```
 
 ---

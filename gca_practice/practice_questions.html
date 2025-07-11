@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 CodeSignal GCA Practice Questions</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .instructions {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-bottom: 3px solid #e9ecef;
+        }
+
+        .instructions h2 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .instructions ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .instructions li {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #ff6b6b;
+        }
+
+        .content {
+            padding: 2rem;
+        }
+
+        .question {
+            background: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            border-left: 5px solid #ff6b6b;
+        }
+
+        .question h3 {
+            color: #ff6b6b;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+
+        .question p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .problem-statement {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid #4ecdc4;
+        }
+
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+            border: 1px solid #34495e;
+        }
+
+        .example {
+            background: #e8f5e8;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid #27ae60;
+        }
+
+        .example h4 {
+            color: #27ae60;
+            margin-bottom: 0.5rem;
+        }
+
+        .constraints {
+            background: #fff3cd;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid #ffc107;
+        }
+
+        .constraints h4 {
+            color: #856404;
+            margin-bottom: 0.5rem;
+        }
+
+        .difficulty {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .difficulty.easy {
+            background: #27ae60;
+            color: white;
+        }
+
+        .difficulty.medium {
+            background: #f39c12;
+            color: white;
+        }
+
+        .difficulty.hard {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .timer {
+            background: #34495e;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .code-editor {
+            width: 100%;
+            min-height: 200px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            padding: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: #f8f9fa;
+            margin: 1rem 0;
+            resize: vertical;
+        }
+
+        .code-editor:focus {
+            outline: none;
+            border-color: #ff6b6b;
+        }
+
+        .control-panel {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .run-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .run-btn:hover {
+            background: #2ecc71;
+            transform: translateY(-2px);
+        }
+
+        .test-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .test-btn:hover {
+            background: #5dade2;
+            transform: translateY(-2px);
+        }
+
+        .clear-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .clear-btn:hover {
+            background: #ec7063;
+            transform: translateY(-2px);
+        }
+
+        .output {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .output.success {
+            border-color: #27ae60;
+            background: #d5f4e6;
+        }
+
+        .output.error {
+            border-color: #e74c3c;
+            background: #fadbd8;
+        }
+
+        .test-results {
+            margin: 1rem 0;
+        }
+
+        .test-case {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 0.8rem;
+            margin: 0.5rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .test-case.passed {
+            border-color: #27ae60;
+            background: #d5f4e6;
+        }
+
+        .test-case.failed {
+            border-color: #e74c3c;
+            background: #fadbd8;
+        }
+
+        .tags {
+            margin-top: 1rem;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #e9ecef;
+            color: #495057;
+            padding: 0.2rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-indicator {
+            text-align: center;
+            margin: 1rem 0;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 1rem;
+            }
+            
+            .question {
+                padding: 1rem;
+            }
+
+            .control-panel {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .control-panel button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 CodeSignal GCA Practice</h1>
+            <p>Interactive General Coding Assessment Preparation</p>
+        </div>
+
+        <div class="timer">
+            ⏱️ Time Limit: 70 minutes for 4 problems | Practice Mode: No time limit
+        </div>
+
+        <div class="instructions">
+            <h2>📋 GCA Instructions</h2>
+            <ul>
+                <li>🎯 <strong>4 coding problems</strong> of increasing difficulty</li>
+                <li>⏰ <strong>70 minutes total</strong> for actual GCA (practice has no limit)</li>
+                <li>💻 <strong>Write your code</strong> in the text areas below</li>
+                <li>▶️ <strong>Run your code</strong> to test with custom inputs</li>
+                <li>🧪 <strong>Test your solution</strong> with provided examples</li>
+                <li>✅ <strong>All test cases must pass</strong> for correct solution</li>
+                <li>📝 <strong>Clean, readable code</strong> is preferred</li>
+                <li>🚀 <strong>Optimize for correctness first</strong>, then efficiency</li>
+            </ul>
+        </div>
+
+        <div class="content">
+            <!-- Problem 1: Array Centering -->
+            <div class="question">
+                <span class="difficulty easy">EASY</span>
+                <h3>Problem 1: Array Centering</h3>
+                
+                <div class="problem-statement">
+                    <p>Given an array of integers, return a new array where each element is the difference between that element and the average of all elements in the array, rounded to the nearest integer.</p>
+                </div>
+
+                <div class="example">
+                    <h4>Example</h4>
+                    <div class="code-block">
+Input: [1, 2, 3, 4, 5]
+Output: [-2, -1, 0, 1, 2]
+
+Explanation: 
+- Average = (1+2+3+4+5)/5 = 3
+- Differences: [1-3, 2-3, 3-3, 4-3, 5-3] = [-2, -1, 0, 1, 2]
+                    </div>
+                </div>
+
+                <div class="constraints">
+                    <h4>Constraints</h4>
+                    <ul>
+                        <li>1 ≤ array length ≤ 1000</li>
+                        <li>-100 ≤ array[i] ≤ 100</li>
+                    </ul>
+                </div>
+
+                <div class="tags">
+                    <span class="tag">Array</span>
+                    <span class="tag">Math</span>
+                    <span class="tag">Basic</span>
+                </div>
+
+                <textarea class="code-editor" id="editor1" placeholder="function arrayCentering(arr) {
+    // Write your solution here
+    
+}">function arrayCentering(arr) {
+    // Write your solution here
+    
+}</textarea>
+
+                <div class="control-panel">
+                    <button class="run-btn" onclick="runCode(1)">▶️ Run Code</button>
+                    <button class="test-btn" onclick="testSolution(1)">🧪 Test Solution</button>
+                    <button class="clear-btn" onclick="clearCode(1)">🗑️ Clear</button>
+                </div>
+
+                <div class="output" id="output1"></div>
+                <div class="test-results" id="testResults1"></div>
+            </div>
+
+            <!-- Problem 2: Valid Parentheses -->
+            <div class="question">
+                <span class="difficulty easy">EASY</span>
+                <h3>Problem 2: Valid Parentheses</h3>
+                
+                <div class="problem-statement">
+                    <p>Given a string containing only parentheses '(' and ')', determine if the input string has valid parentheses. A string has valid parentheses if every opening parenthesis has a corresponding closing parenthesis in the correct order.</p>
+                </div>
+
+                <div class="example">
+                    <h4>Examples</h4>
+                    <div class="code-block">
+Input: "()"
+Output: true
+
+Input: "((()))"
+Output: true
+
+Input: "(()"
+Output: false
+
+Input: "())"
+Output: false
+                    </div>
+                </div>
+
+                <div class="constraints">
+                    <h4>Constraints</h4>
+                    <ul>
+                        <li>1 ≤ string length ≤ 1000</li>
+                        <li>String contains only '(' and ')' characters</li>
+                    </ul>
+                </div>
+
+                <div class="tags">
+                    <span class="tag">String</span>
+                    <span class="tag">Stack</span>
+                    <span class="tag">Validation</span>
+                </div>
+
+                <textarea class="code-editor" id="editor2" placeholder="function validParentheses(s) {
+    // Write your solution here
+    
+}">function validParentheses(s) {
+    // Write your solution here
+    
+}</textarea>
+
+                <div class="control-panel">
+                    <button class="run-btn" onclick="runCode(2)">▶️ Run Code</button>
+                    <button class="test-btn" onclick="testSolution(2)">🧪 Test Solution</button>
+                    <button class="clear-btn" onclick="clearCode(2)">🗑️ Clear</button>
+                </div>
+
+                <div class="output" id="output2"></div>
+                <div class="test-results" id="testResults2"></div>
+            </div>
+
+            <!-- Problem 3: Matrix Diagonal Sum -->
+            <div class="question">
+                <span class="difficulty medium">MEDIUM</span>
+                <h3>Problem 3: Matrix Diagonal Sum</h3>
+                
+                <div class="problem-statement">
+                    <p>Given a square matrix, calculate the sum of both diagonals. If an element is part of both diagonals (the center element in odd-sized matrices), count it only once.</p>
+                </div>
+
+                <div class="example">
+                    <h4>Examples</h4>
+                    <div class="code-block">
+Input: [[1,2,3],
+        [4,5,6],
+        [7,8,9]]
+Output: 25
+
+Explanation:
+- Main diagonal: 1 + 5 + 9 = 15
+- Anti-diagonal: 3 + 5 + 7 = 15
+- Center element 5 is counted only once
+- Total: 15 + 15 - 5 = 25
+
+Input: [[1,2],
+        [3,4]]
+Output: 10
+
+Explanation:
+- Main diagonal: 1 + 4 = 5
+- Anti-diagonal: 2 + 3 = 5
+- Total: 5 + 5 = 10
+                    </div>
+                </div>
+
+                <div class="constraints">
+                    <h4>Constraints</h4>
+                    <ul>
+                        <li>1 ≤ matrix.length ≤ 100</li>
+                        <li>matrix.length == matrix[i].length (square matrix)</li>
+                        <li>1 ≤ matrix[i][j] ≤ 100</li>
+                    </ul>
+                </div>
+
+                <div class="tags">
+                    <span class="tag">Matrix</span>
+                    <span class="tag">Math</span>
+                    <span class="tag">2D Array</span>
+                </div>
+
+                <textarea class="code-editor" id="editor3" placeholder="function diagonalSum(matrix) {
+    // Write your solution here
+    
+}">function diagonalSum(matrix) {
+    // Write your solution here
+    
+}</textarea>
+
+                <div class="control-panel">
+                    <button class="run-btn" onclick="runCode(3)">▶️ Run Code</button>
+                    <button class="test-btn" onclick="testSolution(3)">🧪 Test Solution</button>
+                    <button class="clear-btn" onclick="clearCode(3)">🗑️ Clear</button>
+                </div>
+
+                <div class="output" id="output3"></div>
+                <div class="test-results" id="testResults3"></div>
+            </div>
+
+            <!-- Problem 4: Longest Increasing Subsequence -->
+            <div class="question">
+                <span class="difficulty medium">MEDIUM</span>
+                <h3>Problem 4: Longest Increasing Subsequence Length</h3>
+                
+                <div class="problem-statement">
+                    <p>Given an array of integers, find the length of the longest increasing subsequence. A subsequence is a sequence that can be derived from the original array by deleting some or no elements without changing the order of the remaining elements.</p>
+                </div>
+
+                <div class="example">
+                    <h4>Examples</h4>
+                    <div class="code-block">
+Input: [10, 9, 2, 5, 3, 7, 101, 18]
+Output: 4
+
+Explanation: The longest increasing subsequence is [2, 3, 7, 18]
+
+Input: [0, 1, 0, 3, 2, 3]
+Output: 4
+
+Explanation: The longest increasing subsequence is [0, 1, 2, 3]
+
+Input: [7, 7, 7, 7, 7, 7, 7]
+Output: 1
+
+Explanation: Any single element forms the longest increasing subsequence
+                    </div>
+                </div>
+
+                <div class="constraints">
+                    <h4>Constraints</h4>
+                    <ul>
+                        <li>1 ≤ array length ≤ 100</li>
+                        <li>-100 ≤ array[i] ≤ 100</li>
+                    </ul>
+                </div>
+
+                <div class="tags">
+                    <span class="tag">Dynamic Programming</span>
+                    <span class="tag">Array</span>
+                    <span class="tag">Subsequence</span>
+                </div>
+
+                <textarea class="code-editor" id="editor4" placeholder="function longestIncreasingSubsequence(nums) {
+    // Write your solution here
+    
+}">function longestIncreasingSubsequence(nums) {
+    // Write your solution here
+    
+}</textarea>
+
+                <div class="control-panel">
+                    <button class="run-btn" onclick="runCode(4)">▶️ Run Code</button>
+                    <button class="test-btn" onclick="testSolution(4)">🧪 Test Solution</button>
+                    <button class="clear-btn" onclick="clearCode(4)">🗑️ Clear</button>
+                </div>
+
+                <div class="output" id="output4"></div>
+                <div class="test-results" id="testResults4"></div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>🎯 <strong>CodeSignal GCA Tips:</strong></p>
+            <ul style="text-align: left; max-width: 600px; margin: 0 auto;">
+                <li>✅ Start with the easier problems to build confidence</li>
+                <li>⏰ Manage your time - don't spend too long on one problem</li>
+                <li>🧪 Test your solution with the provided examples</li>
+                <li>🔍 Consider edge cases and constraints</li>
+                <li>📝 Write clean, readable code</li>
+                <li>🚀 Optimize after getting a working solution</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Test cases for each problem
+        const testCases = {
+            1: [
+                { input: [[1, 2, 3, 4, 5]], expected: [-2, -1, 0, 1, 2] },
+                { input: [[10, 20, 30]], expected: [-10, 0, 10] },
+                { input: [[1, 1, 1]], expected: [0, 0, 0] },
+                { input: [[5]], expected: [0] },
+                { input: [[-5, 0, 5]], expected: [-5, 0, 5] }
+            ],
+            2: [
+                { input: ["()"], expected: true },
+                { input: ["((()))"], expected: true },
+                { input: ["(()"], expected: false },
+                { input: ["())"], expected: false },
+                { input: [""], expected: true },
+                { input: ["(()(()))"], expected: true }
+            ],
+            3: [
+                { input: [[[1,2,3],[4,5,6],[7,8,9]]], expected: 25 },
+                { input: [[[1,2],[3,4]]], expected: 10 },
+                { input: [[[5]]], expected: 5 },
+                { input: [[[1,1,1,1],[1,1,1,1],[1,1,1,1],[1,1,1,1]]], expected: 8 }
+            ],
+            4: [
+                { input: [[10, 9, 2, 5, 3, 7, 101, 18]], expected: 4 },
+                { input: [[0, 1, 0, 3, 2, 3]], expected: 4 },
+                { input: [[7, 7, 7, 7, 7, 7, 7]], expected: 1 },
+                { input: [[1, 3, 6, 7, 9, 4, 10, 5, 6]], expected: 6 },
+                { input: [[5, 4, 3, 2, 1]], expected: 1 }
+            ]
+        };
+
+        function runCode(problemNumber) {
+            const editor = document.getElementById(`editor${problemNumber}`);
+            const output = document.getElementById(`output${problemNumber}`);
+            
+            const code = editor.value;
+            
+            try {
+                // Clear previous output
+                output.className = 'output';
+                output.textContent = 'Running your code...\n\n';
+                
+                // Execute the code
+                eval(code);
+                
+                // Test with first example for immediate feedback
+                const testCase = testCases[problemNumber][0];
+                const functionName = getFunctionName(problemNumber);
+                
+                let result;
+                if (typeof window[functionName] === 'function') {
+                    result = window[functionName](...testCase.input);
+                    output.textContent = `Code executed successfully!\n\nTest with first example:\nInput: ${JSON.stringify(testCase.input)}\nYour output: ${JSON.stringify(result)}\nExpected: ${JSON.stringify(testCase.expected)}\n\nClick "Test Solution" to run all test cases.`;
+                    output.className = 'output success';
+                } else {
+                    output.textContent = `Error: Function ${functionName} not found. Make sure your function is named correctly.`;
+                    output.className = 'output error';
+                }
+                
+            } catch (error) {
+                output.textContent = `Error: ${error.message}`;
+                output.className = 'output error';
+            }
+        }
+
+        function testSolution(problemNumber) {
+            const editor = document.getElementById(`editor${problemNumber}`);
+            const testResults = document.getElementById(`testResults${problemNumber}`);
+            
+            const code = editor.value;
+            
+            try {
+                // Execute the code
+                eval(code);
+                
+                const functionName = getFunctionName(problemNumber);
+                const tests = testCases[problemNumber];
+                
+                if (typeof window[functionName] !== 'function') {
+                    testResults.innerHTML = `<div class="test-case failed">Error: Function ${functionName} not found.</div>`;
+                    return;
+                }
+                
+                let passedTests = 0;
+                let resultsHTML = '';
+                
+                tests.forEach((test, index) => {
+                    try {
+                        const result = window[functionName](...test.input);
+                        const passed = JSON.stringify(result) === JSON.stringify(test.expected);
+                        
+                        if (passed) passedTests++;
+                        
+                        resultsHTML += `
+                            <div class="test-case ${passed ? 'passed' : 'failed'}">
+                                <strong>Test Case ${index + 1}:</strong> ${passed ? '✅ PASSED' : '❌ FAILED'}<br>
+                                Input: ${JSON.stringify(test.input)}<br>
+                                Expected: ${JSON.stringify(test.expected)}<br>
+                                Your output: ${JSON.stringify(result)}
+                            </div>
+                        `;
+                    } catch (error) {
+                        resultsHTML += `
+                            <div class="test-case failed">
+                                <strong>Test Case ${index + 1}:</strong> ❌ ERROR<br>
+                                Input: ${JSON.stringify(test.input)}<br>
+                                Error: ${error.message}
+                            </div>
+                        `;
+                    }
+                });
+                
+                const summary = `<div class="progress-indicator">Passed ${passedTests}/${tests.length} test cases</div>`;
+                testResults.innerHTML = summary + resultsHTML;
+                
+            } catch (error) {
+                testResults.innerHTML = `<div class="test-case failed">Compilation Error: ${error.message}</div>`;
+            }
+        }
+
+        function clearCode(problemNumber) {
+            const editor = document.getElementById(`editor${problemNumber}`);
+            const output = document.getElementById(`output${problemNumber}`);
+            const testResults = document.getElementById(`testResults${problemNumber}`);
+            
+            const functionName = getFunctionName(problemNumber);
+            const template = `function ${functionName}(${getFunctionParams(problemNumber)}) {
+    // Write your solution here
+    
+}`;
+            
+            editor.value = template;
+            output.textContent = '';
+            output.className = 'output';
+            testResults.innerHTML = '';
+        }
+
+        function getFunctionName(problemNumber) {
+            const names = {
+                1: 'arrayCentering',
+                2: 'validParentheses',
+                3: 'diagonalSum',
+                4: 'longestIncreasingSubsequence'
+            };
+            return names[problemNumber];
+        }
+
+        function getFunctionParams(problemNumber) {
+            const params = {
+                1: 'arr',
+                2: 's',
+                3: 'matrix',
+                4: 'nums'
+            };
+            return params[problemNumber];
+        }
+
+        // Helper function to compare arrays deeply
+        function arraysEqual(a, b) {
+            if (a === b) return true;
+            if (a == null || b == null) return false;
+            if (a.length !== b.length) return false;
+
+            for (let i = 0; i < a.length; ++i) {
+                if (Array.isArray(a[i]) && Array.isArray(b[i])) {
+                    if (!arraysEqual(a[i], b[i])) return false;
+                } else if (a[i] !== b[i]) return false;
+            }
+            return true;
+        }
+
+        // Initialize editors with function templates
+        document.addEventListener('DOMContentLoaded', function() {
+            for (let i = 1; i <= 4; i++) {
+                clearCode(i);
+            }
+        });
+    </script>
+</body>
+</html>

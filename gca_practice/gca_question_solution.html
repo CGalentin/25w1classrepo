@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 CodeSignal GCA Solutions</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .content {
+            padding: 2rem;
+        }
+
+        .solution {
+            background: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            border-left: 5px solid #28a745;
+        }
+
+        .solution h3 {
+            color: #28a745;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+            border: 1px solid #34495e;
+        }
+
+        .explanation {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid #20c997;
+        }
+
+        .complexity {
+            background: #e7f3ff;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid #007bff;
+        }
+
+        .approach {
+            background: #fff3e0;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid #ff9800;
+        }
+
+        .approach h4 {
+            color: #e65100;
+            margin-bottom: 0.5rem;
+        }
+
+        .tips {
+            background: #f3e5f5;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid #9c27b0;
+        }
+
+        .tips h4 {
+            color: #6a1b9a;
+            margin-bottom: 0.5rem;
+        }
+
+        .difficulty {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .difficulty.easy {
+            background: #27ae60;
+            color: white;
+        }
+
+        .difficulty.medium {
+            background: #f39c12;
+            color: white;
+        }
+
+        .difficulty.hard {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .alternative {
+            background: #f0f8ff;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid #4169e1;
+        }
+
+        .alternative h4 {
+            color: #4169e1;
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 1rem;
+            }
+            
+            .solution {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>✅ CodeSignal GCA Solutions</h1>
+            <p>Complete Solutions with Explanations</p>
+        </div>
+
+        <div class="content">
+            <!-- Solution 1: Array Centering -->
+            <div class="solution">
+                <span class="difficulty easy">EASY</span>
+                <h3>Solution 1: Array Centering</h3>
+                
+                <div class="code-block">
+function arrayCentering(arr) {
+    // Calculate the average
+    const sum = arr.reduce((acc, num) => acc + num, 0);
+    const average = sum / arr.length;
+    
+    // Return array with differences rounded to nearest integer
+    return arr.map(num => Math.round(num - average));
+}
+
+// Alternative solution with more explicit steps
+function arrayCentering2(arr) {
+    let sum = 0;
+    for (let i = 0; i < arr.length; i++) {
+        sum += arr[i];
+    }
+    const average = sum / arr.length;
+    
+    const result = [];
+    for (let i = 0; i < arr.length; i++) {
+        result.push(Math.round(arr[i] - average));
+    }
+    return result;
+}
+                </div>
+
+                <div class="explanation">
+                    <h4>Explanation:</h4>
+                    <p>1. Calculate the sum of all elements in the array</p>
+                    <p>2. Divide by array length to get the average</p>
+                    <p>3. For each element, subtract the average and round to nearest integer</p>
+                    <p>4. Return the new array with these differences</p>
+                </div>
+
+                <div class="complexity">
+                    <h4>Complexity Analysis:</h4>
+                    <p><strong>Time Complexity:</strong> O(n) - We iterate through the array twice</p>
+                    <p><strong>Space Complexity:</strong> O(n) - We create a new array of the same size</p>
+                </div>
+
+                <div class="tips">
+                    <h4>Tips:</h4>
+                    <ul>
+                        <li>Use Math.round() for proper rounding to nearest integer</li>
+                        <li>The reduce() method is efficient for calculating sums</li>
+                        <li>Consider edge cases like empty arrays (though constraints prevent this)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Solution 2: Valid Parentheses -->
+            <div class="solution">
+                <span class="difficulty easy">EASY</span>
+                <h3>Solution 2: Valid Parentheses</h3>
+                
+                <div class="code-block">
+function validParentheses(s) {
+    let count = 0;
+    
+    for (let i = 0; i < s.length; i++) {
+        if (s[i] === '(') {
+            count++;
+        } else if (s[i] === ')') {
+            count--;
+            // If count becomes negative, we have more closing than opening
+            if (count < 0) {
+                return false;
+            }
+        }
+    }
+    
+    // Valid if count is exactly 0 (all parentheses matched)
+    return count === 0;
+}
+
+// Alternative stack-based solution
+function validParentheses2(s) {
+    const stack = [];
+    
+    for (let char of s) {
+        if (char === '(') {
+            stack.push(char);
+        } else if (char === ')') {
+            if (stack.length === 0) {
+                return false;
+            }
+            stack.pop();
+        }
+    }
+    
+    return stack.length === 0;
+}
+                </div>
+
+                <div class="explanation">
+                    <h4>Explanation:</h4>
+                    <p>1. Use a counter to track open parentheses</p>
+                    <p>2. Increment for '(' and decrement for ')'</p>
+                    <p>3. If counter becomes negative, we have invalid ordering</p>
+                    <p>4. Final counter must be 0 for valid parentheses</p>
+                </div>
+
+                <div class="complexity">
+                    <h4>Complexity Analysis:</h4>
+                    <p><strong>Time Complexity:</strong> O(n) - Single pass through string</p>
+                    <p><strong>Space Complexity:</strong> O(1) - Only using a counter variable</p>
+                </div>
+
+                <div class="alternative">
+                    <h4>Alternative Approach:</h4>
+                    <p>Stack-based solution is more general and works for multiple types of brackets. Counter approach is more efficient for single bracket type.</p>
+                </div>
+            </div>
+
+            <!-- Solution 3: Matrix Diagonal Sum -->
+            <div class="solution">
+                <span class="difficulty medium">MEDIUM</span>
+                <h3>Solution 3: Matrix Diagonal Sum</h3>
+                
+                <div class="code-block">
+function diagonalSum(matrix) {
+    const n = matrix.length;
+    let sum = 0;
+    
+    for (let i = 0; i < n; i++) {
+        // Add main diagonal element
+        sum += matrix[i][i];
+        
+        // Add anti-diagonal element
+        sum += matrix[i][n - 1 - i];
+    }
+    
+    // If matrix has odd size, subtract the center element once
+    // (it was counted twice)
+    if (n % 2 === 1) {
+        const center = Math.floor(n / 2);
+        sum -= matrix[center][center];
+    }
+    
+    return sum;
+}
+
+// Alternative solution with explicit checks
+function diagonalSum2(matrix) {
+    const n = matrix.length;
+    let sum = 0;
+    
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+            // Check if element is on main diagonal or anti-diagonal
+            if (i === j || i + j === n - 1) {
+                sum += matrix[i][j];
+            }
+        }
+    }
+    
+    return sum;
+}
+                </div>
+
+                <div class="explanation">
+                    <h4>Explanation:</h4>
+                    <p>1. Main diagonal elements have indices where i == j</p>
+                    <p>2. Anti-diagonal elements have indices where i + j == n - 1</p>
+                    <p>3. For odd-sized matrices, center element is counted twice</p>
+                    <p>4. Subtract center element once to avoid double counting</p>
+                </div>
+
+                <div class="complexity">
+                    <h4>Complexity Analysis:</h4>
+                    <p><strong>Time Complexity:</strong> O(n) - First solution iterates once, second is O(n²)</p>
+                    <p><strong>Space Complexity:</strong> O(1) - Only using variables for sum and indices</p>
+                </div>
+
+                <div class="tips">
+                    <h4>Tips:</h4>
+                    <ul>
+                        <li>First solution is more efficient - O(n) vs O(n²)</li>
+                        <li>Remember to handle the center element in odd-sized matrices</li>
+                        <li>Anti-diagonal formula: i + j = n - 1</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Solution 4: Longest Increasing Subsequence -->
+            <div class="solution">
+                <span class="difficulty medium">MEDIUM</span>
+                <h3>Solution 4: Longest Increasing Subsequence</h3>
+                
+                <div class="code-block">
+function longestIncreasingSubsequence(nums) {
+    if (nums.length === 0) return 0;
+    
+    // dp[i] represents length of LIS ending at index i
+    const dp = new Array(nums.length).fill(1);
+    
+    for (let i = 1; i < nums.length; i++) {
+        for (let j = 0; j < i; j++) {
+            if (nums[j] < nums[i]) {
+                dp[i] = Math.max(dp[i], dp[j] + 1);
+            }
+        }
+    }
+    
+    return Math.max(...dp);
+}
+
+// More efficient O(n log n) solution using binary search
+function longestIncreasingSubsequence2(nums) {
+    if (nums.length === 0) return 0;
+    
+    const tails = [];
+    
+    for (let num of nums) {
+        let left = 0, right = tails.length;
+        
+        // Binary search for the position to insert/replace
+        while (left < right) {
+            const mid = Math.floor((left + right) / 2);
+            if (tails[mid] < num) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+        
+        // If left === tails.length, append to array
+        if (left === tails.length) {
+            tails.push(num);
+        } else {
+            // Replace the element at position left
+            tails[left] = num;
+        }
+    }
+    
+    return tails.length;
+}
+                </div>
+
+                <div class="explanation">
+                    <h4>Explanation (DP Solution):</h4>
+                    <p>1. Create dp array where dp[i] = length of LIS ending at index i</p>
+                    <p>2. For each element, check all previous elements</p>
+                    <p>3. If previous element is smaller, extend that subsequence</p>
+                    <p>4. Return maximum value in dp array</p>
+                </div>
+
+                <div class="complexity">
+                    <h4>Complexity Analysis:</h4>
+                    <p><strong>DP Solution:</strong></p>
+                    <p>Time: O(n²), Space: O(n)</p>
+                    <p><strong>Binary Search Solution:</strong></p>
+                    <p>Time: O(n log n), Space: O(n)</p>
+                </div>
+
+                <div class="approach">
+                    <h4>Two Approaches:</h4>
+                    <p><strong>1. Dynamic Programming:</strong> Easier to understand, O(n²) time</p>
+                    <p><strong>2. Binary Search:</strong> More efficient, O(n log n) time</p>
+                </div>
+            </div>
+
+            <!-- Solution 5: Group Anagrams -->
+            <div class="solution">
+                <span class="difficulty medium">MEDIUM</span>
+                <h3>Solution 5: Group Anagrams</h3>
+                
+                <div class="code-block">
+function groupAnagrams(strs) {
+    const map = new Map();
+    
+    for (let str of strs) {
+        // Sort characters to create a key
+        const key = str.split('').sort().join('');
+        
+        if (!map.has(key)) {
+            map.set(key, []);
+        }
+        map.get(key).push(str);
+    }
+    
+    return Array.from(map.values());
+}
+
+// Alternative using character frequency as key
+function groupAnagrams2(strs) {
+    const map = new Map();
+    
+    for (let str of strs) {
+        // Create frequency signature
+        const freq = new Array(26).fill(0);
+        for (let char of str) {
+            freq[char.charCodeAt(0) - 'a'.charCodeAt(0)]++;
+        }
+        const key = freq.join(',');
+        
+        if (!map.has(key)) {
+            map.set(key, []);
+        }
+        map.get(key).push(str);
+    }
+    
+    return Array.from(map.values());
+}
+                </div>
+
+                <div class="explanation">
+                    <h4>Explanation:</h4>
+                    <p>1. Use a hash map to group strings by their anagram signature</p>
+                    <p>2. For each string, create a key (sorted characters or frequency)</p>
+                    <p>3. Group all strings with the same key together</p>
+                    <p>4. Return all groups as an array of arrays</p>
+                </div>
+
+                <div class="complexity">
+                    <h4>Complexity Analysis:</h4>
+                    <p><strong>Sorting approach:</strong> O(n * k log k) where k is max string length</p>
+                    <p><strong>Frequency approach:</strong> O(n * k) where k is max string length</p>
+                    <p><strong>Space:</strong> O(n * k) for storing all strings</p>
+                </div>
+
+                <div class="alternative">
+                    <h4>Key Generation Strategies:</h4>
+                    <p><strong>1. Sorting:</strong> Simple but slower due to sorting</p>
+                    <p><strong>2. Frequency:</strong> More efficient, uses character frequency array</p>
+                </div>
+            </div>
+
+            <!-- Solution 6: Binary Tree Maximum Path Sum -->
+            <div class="solution">
+                <span class="difficulty hard">HARD</span>
+                <h3>Solution 6: Binary Tree Maximum Path Sum</h3>
+                
+                <div class="code-block">
+function maxPathSum(root) {
+    let maxSum = -Infinity;
+    
+    function maxGain(node) {
+        if (!node) return 0;
+        
+        // Get max gain from left and right subtrees
+        // Use Math.max with 0 to ignore negative paths
+        const leftGain = Math.max(maxGain(node.left), 0);
+        const rightGain = Math.max(maxGain(node.right), 0);
+        
+        // Current path sum including this node
+        const currentMax = node.val + leftGain + rightGain;
+        
+        // Update global maximum
+        maxSum = Math.max(maxSum, currentMax);
+        
+        // Return the max gain from this node to parent
+        // (can only go through one child)
+        return node.val + Math.max(leftGain, rightGain);
+    }
+    
+    maxGain(root);
+    return maxSum;
+}
+                </div>
+
+                <div class="explanation">
+                    <h4>Explanation:</h4>
+                    <p>1. Use recursive DFS to traverse the tree</p>
+                    <p>2. For each node, calculate max gain from left and right subtrees</p>
+                    <p>3. Consider path through current node (left + node + right)</p>
+                    <p>4. Update global maximum if current path is better</p>
+                    <p>5. Return max gain that can be extended to parent</p>
+                </div>
+
+                <div class="complexity">
+                    <h4>Complexity Analysis:</h4>
+                    <p><strong>Time Complexity:</strong> O(n) - Visit each node once</p>
+                    <p><strong>Space Complexity:</strong> O(h) - Recursion stack depth (h = height)</p>
+                </div>
+
+                <div class="tips">
+                    <h4>Key Insights:</h4>
+                    <ul>
+                        <li>Use Math.max(gain, 0) to ignore negative paths</li>
+                        <li>Two different concepts: path through node vs path from node</li>
+                        <li>Global variable needed to track maximum across all paths</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Solution 7: Sliding Window Maximum -->
+            <div class="solution">
+                <span class="difficulty hard">HARD</span>
+                <h3>Solution 7: Sliding Window Maximum</h3>
+                
+                <div class="code-block">
+function maxSlidingWindow(nums, k) {
+    const result = [];
+    const deque = []; // Store indices
+    
+    for (let i = 0; i < nums.length; i++) {
+        // Remove indices outside current window
+        while (deque.length > 0 && deque[0] <= i - k) {
+            deque.shift();
+        }
+        
+        // Remove indices of smaller elements
+        while (deque.length > 0 && nums[deque[deque.length - 1]] <= nums[i]) {
+            deque.pop();
+        }
+        
+        deque.push(i);
+        
+        // Add to result once window is full
+        if (i >= k - 1) {
+            result.push(nums[deque[0]]);
+        }
+    }
+    
+    return result;
+}
+
+// Simpler but less efficient solution
+function maxSlidingWindow2(nums, k) {
+    const result = [];
+    
+    for (let i = 0; i <= nums.length - k; i++) {
+        let max = nums[i];
+        for (let j = i; j < i + k; j++) {
+            max = Math.max(max, nums[j]);
+        }
+        result.push(max);
+    }
+    
+    return result;
+}
+                </div>
+
+                <div class="explanation">
+                    <h4>Explanation (Deque Solution):</h4>
+                    <p>1. Use deque to maintain indices of potential maximums</p>
+                    <p>2. Remove indices outside current window from front</p>
+                    <p>3. Remove indices of smaller elements from back</p>
+                    <p>4. Front of deque always contains index of maximum element</p>
+                    <p>5. Add maximum to result once window is full</p>
+                </div>
+
+                <div class="complexity">
+                    <h4>Complexity Analysis:</h4>
+                    <p><strong>Deque solution:</strong> O(n) time, O(k) space</p>
+                    <p><strong>Naive solution:</strong> O(n*k) time, O(1) space</p>
+                </div>
+
+                <div class="approach">
+                    <h4>Deque Strategy:</h4>
+                    <p>Monotonic deque maintains decreasing order of elements, allowing O(1) maximum retrieval for each window.</p>
+                </div>
+            </div>
+
+            <!-- Solution 8: Edit Distance -->
+            <div class="solution">
+                <span class="difficulty hard">HARD</span>
+                <h3>Solution 8: Edit Distance</h3>
+                
+                <div class="code-block">
+function minDistance(word1, word2) {
+    const m = word1.length;
+    const n = word2.length;
+    
+    // dp[i][j] = min operations to convert word1[0...i-1] to word2[0...j-1]
+    const dp = Array(m + 1).fill(null).map(() => Array(n + 1).fill(0));
+    
+    // Base cases
+    for (let i = 0; i <= m; i++) {
+        dp[i][0] = i; // Delete all characters
+    }
+    for (let j = 0; j <= n; j++) {
+        dp[0][j] = j; // Insert all characters
+    }
+    
+    // Fill dp table
+    for (let i = 1; i <= m; i++) {
+        for (let j = 1; j <= n; j++) {
+            if (word1[i - 1] === word2[j - 1]) {
+                dp[i][j] = dp[i - 1][j - 1]; // No operation needed
+            } else {
+                dp[i][j] = Math.min(
+                    dp[i - 1][j] + 1,     // Delete
+                    dp[i][j - 1] + 1,     // Insert
+                    dp[i - 1][j - 1] + 1  // Replace
+                );
+            }
+        }
+    }
+    
+    return dp[m][n];
+}
+
+// Space-optimized version
+function minDistance2(word1, word2) {
+    const m = word1.length;
+    const n = word2.length;
+    
+    // Only need previous row
+    let prev = Array(n + 1).fill(0);
+    for (let j = 0; j <= n; j++) {
+        prev[j] = j;
+    }
+    
+    for (let i = 1; i <= m; i++) {
+        const curr = Array(n + 1).fill(0);
+        curr[0] = i;
+        
+        for (let j = 1; j <= n; j++) {
+            if (word1[i - 1] === word2[j - 1]) {
+                curr[j] = prev[j - 1];
+            } else {
+                curr[j] = Math.min(
+                    prev[j] + 1,      // Delete
+                    curr[j - 1] + 1,  // Insert
+                    prev[j - 1] + 1   // Replace
+                );
+            }
+        }
+        
+        prev = curr;
+    }
+    
+    return prev[n];
+}
+                </div>
+
+                <div class="explanation">
+                    <h4>Explanation:</h4>
+                    <p>1. Use dynamic programming with 2D table</p>
+                    <p>2. dp[i][j] = minimum operations to convert word1[0...i-1] to word2[0...j-1]</p>
+                    <p>3. If characters match, no operation needed</p>
+                    <p>4. If different, try insert, delete, or replace operations</p>
+                    <p>5. Take minimum of all three operations</p>
+                </div>
+
+                <div class="complexity">
+                    <h4>Complexity Analysis:</h4>
+                    <p><strong>Time Complexity:</strong> O(m * n) where m, n are string lengths</p>
+                    <p><strong>Space Complexity:</strong> O(m * n) for 2D table, O(n) for optimized version</p>
+                </div>
+
+                <div class="tips">
+                    <h4>Dynamic Programming Pattern:</h4>
+                    <ul>
+                        <li>Classic edit distance problem using Wagner-Fischer algorithm</li>
+                        <li>Can be optimized to O(n) space by using only previous row</li>
+                        <li>Each cell depends on top, left, and diagonal neighbors</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer" style="background: #28a745; color: white; padding: 2rem; text-align: center;">
+            <p>🎯 <strong>CodeSignal GCA Success Tips:</strong></p>
+            <ul style="text-align: left; max-width: 600px; margin: 1rem auto; list-style: none;">
+                <li>✅ <strong>Practice these patterns:</strong> Arrays, Strings, Trees, DP, Sliding Window</li>
+                <li>⏰ <strong>Time management:</strong> Easy (10-15 min), Medium (15-20 min), Hard (20-25 min)</li>
+                <li>🧪 <strong>Always test:</strong> Use provided examples and think of edge cases</li>
+                <li>🔍 <strong>Read constraints:</strong> They give hints about expected time complexity</li>
+                <li>📝 <strong>Start simple:</strong> Get a working solution first, then optimize</li>
+                <li>🚀 <strong>Know your complexity:</strong> Be able to analyze time/space complexity</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
