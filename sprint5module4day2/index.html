@@ -14,12 +14,41 @@
 		</header>
 
 		<section class="controls">
-			<button id="loadChars">Load Characters (fetch)</button>
-			<button id="loadHouses">Load Houses (Axios)</button>
+			<div class="control-group">
+				<button id="loadChars">📖 Load Characters</button>
+				<button id="loadHouses">🏰 Load Houses</button>
+				<button id="favoritesBtn">❤️ Favorites (0)</button>
+				<button id="clearResults" class="secondary">🗑️ Clear Results</button>
+			</div>
+			
+			<div class="search-group">
+				<input type="text" id="searchInput" placeholder="Search by name, alias, culture, or region..." />
+				<button id="searchBtn">🔍 Search</button>
+				<select id="filterSelect">
+					<option value="all">All Items</option>
+					<option value="region">Has Region</option>
+					<option value="culture">Has Culture</option>
+					<option value="titles">Has Titles</option>
+				</select>
+			</div>
 		</section>
 
+		<div id="errorMessage" class="error-message hidden"></div>
 		<div id="spinner" class="spinner hidden">⏳ Loading...</div>
+		
 		<main id="dataContainer" class="card-container"></main>
+		
+		<div id="pagination" class="pagination hidden"></div>
+
+		<!-- Modal for detailed information -->
+		<div id="detailModal" class="modal hidden">
+			<div class="modal-overlay">
+				<div class="modal-content">
+					<button id="closeModal" class="close-btn">×</button>
+					<div id="modalContent"></div>
+				</div>
+			</div>
+		</div>
 
 		<footer>Lesson powered by JavaScript & Fire and Ice ☄️</footer>
 
