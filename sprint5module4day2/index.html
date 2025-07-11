@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>🛡️ Westeros Explorer</title>
+		<link rel="stylesheet" href="styles.css" />
+		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	</head>
+	<body>
+		<header>
+			<h1>🛡️ Westeros Explorer</h1>
+			<p>Discover characters and houses from A Song of Ice and Fire.</p>
+		</header>
+
+		<section class="controls">
+			<button id="loadChars">Load Characters (fetch)</button>
+			<button id="loadHouses">Load Houses (Axios)</button>
+		</section>
+
+		<div id="spinner" class="spinner hidden">⏳ Loading...</div>
+		<main id="dataContainer" class="card-container"></main>
+
+		<footer>Lesson powered by JavaScript & Fire and Ice ☄️</footer>
+
+		<script src="app.js"></script>
+	</body>
+</html>

@@ -1,0 +1,61 @@
+body {
+	margin: 0;
+	padding: 0;
+	font-family: "Segoe UI", sans-serif;
+	background: #121212;
+	color: #eee;
+}
+header,
+footer {
+	text-align: center;
+	padding: 1rem;
+	background: #1b1b1b;
+}
+.controls {
+	display: flex;
+	justify-content: center;
+	gap: 1rem;
+	padding: 1rem;
+}
+button {
+	padding: 0.75rem 1.5rem;
+	background: #5a2e21;
+	border: none;
+	border-radius: 8px;
+	color: #fff;
+	font-size: 1rem;
+	cursor: pointer;
+	transition: background 0.3s;
+}
+button:hover {
+	background: #7e4738;
+}
+.spinner {
+	text-align: center;
+	font-size: 1.5rem;
+	margin: 1rem;
+}
+.hidden {
+	display: none;
+}
+.card-container {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+	gap: 1rem;
+	padding: 1rem;
+}
+.card {
+	background: #1f1f1f;
+	border: 2px solid #5a2e21;
+	border-radius: 10px;
+	padding: 1rem;
+	box-shadow: 0 0 10px rgba(90, 46, 33, 0.5);
+}
+.card h3 {
+	margin-top: 0;
+	color: #ad7b54;
+}
+.card p {
+	margin: 0.5rem 0;
+	font-size: 0.9rem;
+}
