@@ -1,40 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <script>
-        function arrayCentering(arr) {
-   // Step 1: Calculate the average of an array
-    // const sum = arr.reduce((acc, num) => acc + num, 0)
-    // const avg = sum / arr.length;
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			        function arrayCentering(arr) {
+			   // Step 1: Calculate the average of an array
+			    // const sum = arr.reduce((acc, num) => acc + num, 0)
+			    // const avg = sum / arr.length;
 
-    // const result = arr.map(num => Math.round(num - avg))
+			    // const result = arr.map(num => Math.round(num - avg))
 
-    // return result;
+			    // return result;
 
-    let sum = 0
-    for (let i = 0; i < arr.length; i++) {
-        sum += arr[i]
-    }
-    console.log(sum);
+			    let sum = 0
+			    for (let i = 0; i < arr.length; i++) {
+			        sum += arr[i]
+			    }
+			    console.log(sum);
 
-    const average = sum / arr.length;
-    console.log(average);
+			    const average = sum / arr.length;
+			    console.log(average);
 
-    const result = []
+			    const result = []
 
-    for(let i = 0; i < arr.length; i++) {
-        result.push(Math.round(arr[i] - average))
-    }
-    return result;
-        
-}
+			    for(let i = 0; i < arr.length; i++) {
+			        result.push(Math.round(arr[i] - average))
+			    }
+			    return result;
 
-console.log(arrayCentering([1,2,3,4,5]))
-    </script>
-</body>
-</html>
+		function validParentheses(str) {
+			    // Write your solution here
+			const stack = [];
+
+            for (let char of str) {
+                if (char === ')') {
+                    stack.push(char) //push open parentheses
+                } else if (char === ')'){
+                    if (stack.length === 0) return false;
+                    stack.pop();
+                }
+            }
+                return stack.length === 0;
+			}
+
+
+			console.log(arrayCentering([1,2,3,4,5]))
+		</script>
+	</body>
+    </html>

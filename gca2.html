@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        	// function validParentheses(str) {
+			//     // Write your solution here
+			// const stack = []; 
+
+            // for (let char of str) {
+            //     if (char === '(') {
+            //         stack.push(char) //push open parentheses
+            //         console.log(stack)
+            //     } else if (char === ')'){
+            //         if (stack.length === 0) return false;
+            //         stack.pop();
+            //         console.log(stack)
+            //     }
+            // }
+            //     return stack.length === 0;
+			// }
+
+            // console.log(validParentheses("(}"))
+            // console.log(validParentheses('(((())'))
+            // console.log(validParentheses('(((())))'))
+            // console.log(validParentheses('('))
+
+            // function isValidBrackets(str) {
+            //     const stack = [];
+            //     const pairs = { ')' : '(', ']': '[', '}': '{'};
+
+            //     for (let char of str) {
+            //         if (char === '(' || char === '[' || char === '{') {
+            //             stack.push(char)
+            //             console.log(stack);
+            //         } else if (char === ')' || char === ']' || char === '}') {
+            //             if (stack.length === 0 || stack.pop() !== pairs[char])
+            //             return false;
+            //         }
+            //         console.log(stack);
+            //     }
+            //     return stack.length === 0;
+            // }
+            // console.log(isValidBrackets('([{}])'))
+            
+            /*  matrix [0] [0]
+                matrix [1] [1]
+                matrix [2] [2]
+                [1, 2, 3]
+                [4, 5, 6]
+                [7, 8, 9]
+
+                [1, 2]
+                [3, 4]
+
+            */
+
+            // function diagonalSum(matrix) {
+            //     let total = 0;
+            //     const n = matrix.length
+
+            //     for (let i=0; i < n; i++) {
+            //         total += matrix[i][i];// Main diagonal
+            //         total += matrix[i] [n - 1 - i]  
+            //     }
+
+            //     if (n % 2 === 1) {
+            //         const center = matrix[Math.floor(n/2)][Math.floor(n/2)];
+            //         total -= center;
+            //     }
+
+            //     return total
+
+            // }
+
+            function diagonalSum(matrix) {
+                const n = matrix.length
+                let mainDiag = 0
+                let antiDiag = 0
+
+                for (let i=0; i < n; i++) {
+                    mainDiag += matrix[i] [i]
+                }
+
+                for (let i=0; i<n; i++) {
+                    antiDiag += matrix [i] [n - 1 - i]
+                }
+
+                if (n % 2 === 1) {
+                const center = matrix[Math.floor(n/2)][Math.floor(n/2)];
+                return mainDiag + antiDiag - center
+                }
+
+                return mainDiag + antiDiag
+
+            }
+
+            console.log(diagonalSum([[1,2,3],[4,5,6],[7,8,9]]));
+
+    </script>
+</body>
+</html>

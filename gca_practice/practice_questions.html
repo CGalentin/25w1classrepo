@@ -699,60 +699,37 @@ Explanation: Any single element forms the longest increasing subsequence
             }
         }
 
-        function testSolution(problemNumber) {
-            const editor = document.getElementById(`editor${problemNumber}`);
-            const testResults = document.getElementById(`testResults${problemNumber}`);
-            
-            const code = editor.value;
-            
-            try {
-                // Execute the code
-                eval(code);
-                
-                const functionName = getFunctionName(problemNumber);
-                const tests = testCases[problemNumber];
-                
-                if (typeof window[functionName] !== 'function') {
-                    testResults.innerHTML = `<div class="test-case failed">Error: Function ${functionName} not found.</div>`;
-                    return;
-                }
-                
-                let passedTests = 0;
-                let resultsHTML = '';
-                
-                tests.forEach((test, index) => {
-                    try {
-                        const result = window[functionName](...test.input);
-                        const passed = JSON.stringify(result) === JSON.stringify(test.expected);
-                        
-                        if (passed) passedTests++;
-                        
-                        resultsHTML += `
-                            <div class="test-case ${passed ? 'passed' : 'failed'}">
-                                <strong>Test Case ${index + 1}:</strong> ${passed ? '✅ PASSED' : '❌ FAILED'}<br>
-                                Input: ${JSON.stringify(test.input)}<br>
-                                Expected: ${JSON.stringify(test.expected)}<br>
-                                Your output: ${JSON.stringify(result)}
-                            </div>
-                        `;
-                    } catch (error) {
-                        resultsHTML += `
-                            <div class="test-case failed">
-                                <strong>Test Case ${index + 1}:</strong> ❌ ERROR<br>
-                                Input: ${JSON.stringify(test.input)}<br>
-                                Error: ${error.message}
-                            </div>
-                        `;
-                    }
-                });
-                
-                const summary = `<div class="progress-indicator">Passed ${passedTests}/${tests.length} test cases</div>`;
-                testResults.innerHTML = summary + resultsHTML;
-                
-            } catch (error) {
-                testResults.innerHTML = `<div class="test-case failed">Compilation Error: ${error.message}</div>`;
-            }
-        }
+        function runCode(problemNumber) {
+    const editor = document.getElementById(`editor${problemNumber}`);
+    const output = document.getElementById(`output${problemNumber}`);
+    
+    const code = editor.value;
+    const functionName = getFunctionName(problemNumber);
+
+    try {
+        // Clear previous output
+        output.className = 'output';
+        output.textContent = 'Running your code...\n\n';
+
+        // Wrap and evaluate code
+        const wrapped = `(function() {
+            ${code}
+            window['${functionName}'] = ${functionName};
+        })();`;
+        eval(wrapped);
+
+        // Test with first example
+        const testCase = testCases[problemNumber][0];
+        const result = window[functionName](...testCase.input);
+
+        output.textContent = `✅ Code executed successfully!\n\nTest Input: ${JSON.stringify(testCase.input)}\nYour Output: ${JSON.stringify(result)}\nExpected: ${JSON.stringify(testCase.expected)}`;
+        output.className = 'output success';
+        
+    } catch (error) {
+        output.textContent = `❌ Error: ${error.message}`;
+        output.className = 'output error';
+    }
+}
 
         function clearCode(problemNumber) {
             const editor = document.getElementById(`editor${problemNumber}`);
