@@ -1,8 +1,15 @@
 import React, { useState } from "react";
 import ArticlePreview from "./ArticlePreveiew";
 import SearchBar from "./SearchBar";
+import FeaturedArticle from "./FeaturedArticle";
 
 const articles = [
+	{
+		title: "Inside the Mind of a Frontend Developer",
+		author: "Taylor Brook",
+		summary:
+			"From crafting pixel-perfect layouts to wrangling asynchronous bugs, this deep dive explores what it really takes to thrive as a modern frontend engineer in 2025. Packed with insights, struggles, and inspiration.",
+	},
 	{
 		title: "The Rise of AI: Transforming Industries",
 		author: "Jane Doe",
@@ -37,6 +44,14 @@ function ArticleList() {
 	return (
 		<section>
 			<SearchBar onSearch={setSearch} />
+			{!search &&(
+				<FeaturedArticle
+					title={articles[3].title}
+					author={articles[3].author}
+					summary={articles[3].summary}
+					highlight={true}
+					/>
+			)}
 			<h2> Latest Articles: </h2>
 			{filteredArticles.map((article, index) => (
 				<ArticlePreview

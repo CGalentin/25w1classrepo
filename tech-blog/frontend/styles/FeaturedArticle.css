@@ -1,0 +1,32 @@
+.FeaturedArticle {
+    background: linear-gradient(135deg,#dfe6e9, #ffeaa7);
+    border: 2PX, solid black;
+    padding: 24px;
+    margin: 20px auto;
+    border-radius: 12px;
+    max-width: 700px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    animation: fadeIn .6s ease;
+}
+
+.FeaturedArticle h2 {
+    color: #b33f00;
+    font-size: 1.6 rem;
+}
+
+.FeaturedArticle h3 {
+    margin-top: 10px;
+    font-size: 1.3rem;
+    color: #93005a;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
