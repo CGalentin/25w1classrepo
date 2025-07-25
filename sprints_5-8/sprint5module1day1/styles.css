@@ -4,16 +4,20 @@ body {
 }
 
 #main-heading {
-	color: darkblue;
+	color: rgb(56, 56, 201);
+	text-align: center;
 }
 
 .info {
 	color: green;
 	margin: 10px 0;
+	font-size:medium
 }
 
 button {
 	margin: 5px;
 	padding: 10px;
 	font-size: 16px;
+	border-radius: 5px;
+	
 }
